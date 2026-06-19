@@ -1,0 +1,13 @@
+[project]
+name = "poem"
+version = "0.1.0"
+description = "POEM: a from-scratch symbolic melody generator"
+requires-python = ">=3.11"
+dependencies = [
+  "torch",
+  "pretty_midi",
+  "mido",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
