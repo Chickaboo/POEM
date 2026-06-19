@@ -88,3 +88,27 @@ def fielded_cross_entropy(
     if extra_loss is not None:
         loss = loss + extra_loss
     return loss
+
+
+@torch.no_grad()
+def fielded_loss_breakdown(logits: dict[str, torch.Tensor], targets: torch.Tensor) -> dict[str, float]:
+    target_type = targets[..., 0].long()
+    valid_mask = target_type != TYPE_PAD
+    note_mask = target_type == TYPE_NOTE
+    metrics: dict[str, float] = {
+        "valid_tokens": float(valid_mask.sum().item()),
+        "note_tokens": float(note_mask.sum().item()),
+        "note_fraction": float(note_mask.sum().item() / max(1, valid_mask.sum().item())),
+    }
+    if valid_mask.any():
+        type_logits = logits["type"][valid_mask]
+        type_targets = target_type[valid_mask]
+        metrics["type_loss"] = float(F.cross_entropy(type_logits, type_targets).detach())
+        metrics["type_acc"] = float((type_logits.argmax(dim=-1) == type_targets).float().mean().detach())
+    if note_mask.any():
+        for field_index, field_name in enumerate(("pitch", "duration", "velocity", "position"), start=1):
+            field_logits = logits[field_name][note_mask]
+            field_targets = targets[..., field_index][note_mask].long()
+            metrics[f"{field_name}_loss"] = float(F.cross_entropy(field_logits, field_targets).detach())
+            metrics[f"{field_name}_acc"] = float((field_logits.argmax(dim=-1) == field_targets).float().mean().detach())
+    return metrics

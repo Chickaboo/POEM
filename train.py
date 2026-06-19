@@ -15,6 +15,7 @@ from torch.utils.data import DataLoader
 
 from models.build import build_model, count_parameters
 from models.config import config_for_model_type
+from models.embeddings import fielded_loss_breakdown
 from tokenizer.vocab import TYPE_PAD
 from training.compute_budget import DEFAULT_TRAIN_EPOCHS, format_budget_plan, plan_epoch_budget
 from training.data import (
@@ -87,6 +88,49 @@ def maybe_create_hf_repo(repo_id: str | None, token: str | None, private: bool) 
     HfApi(token=token).create_repo(repo_id=repo_id, repo_type="model", private=private, exist_ok=True)
 
 
+def build_optimizer(model: torch.nn.Module, lr: float, weight_decay: float) -> torch.optim.Optimizer:
+    decay_params = []
+    no_decay_params = []
+    for name, param in model.named_parameters():
+        if not param.requires_grad:
+            continue
+        lowered = name.lower()
+        if param.ndim < 2 or "norm" in lowered or "emb" in lowered or lowered.endswith("bias"):
+            no_decay_params.append(param)
+        else:
+            decay_params.append(param)
+    return torch.optim.AdamW(
+        [
+            {"params": decay_params, "weight_decay": weight_decay},
+            {"params": no_decay_params, "weight_decay": 0.0},
+        ],
+        lr=lr,
+    )
+
+
+def build_lr_scheduler(
+    optimizer: torch.optim.Optimizer,
+    args: argparse.Namespace,
+    total_steps: int,
+) -> torch.optim.lr_scheduler.LambdaLR | None:
+    if args.lr_schedule == "none":
+        return None
+    warmup_steps = args.warmup_steps
+    if warmup_steps <= 0:
+        warmup_steps = int(total_steps * args.warmup_ratio)
+    warmup_steps = max(1, warmup_steps)
+    total_steps = max(total_steps, warmup_steps + 1)
+
+    def lr_lambda(step: int) -> float:
+        if step < warmup_steps:
+            return max(1e-8, (step + 1) / warmup_steps)
+        progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
+        cosine = 0.5 * (1.0 + math.cos(math.pi * min(1.0, progress)))
+        return args.min_lr_ratio + (1.0 - args.min_lr_ratio) * cosine
+
+    return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
+
+
 def evaluate(
     model: torch.nn.Module,
     loader: DataLoader,
@@ -94,9 +138,11 @@ def evaluate(
     use_amp: bool,
     amp_dtype: torch.dtype,
     max_batches: int = 20,
-) -> float:
+) -> dict[str, float]:
     model.eval()
     losses: list[float] = []
+    breakdown_totals: dict[str, float] = {}
+    breakdown_count = 0
     with torch.no_grad():
         for batch_index, batch in enumerate(loader):
             batch = batch.to(device, non_blocking=True)
@@ -107,10 +153,17 @@ def evaluate(
             if output.loss is not None:
                 loss_tensor = output.loss.mean() if output.loss.ndim > 0 else output.loss
                 losses.append(float(loss_tensor.detach()))
+                breakdown = fielded_loss_breakdown(output.logits, batch[:, 1:])
+                for key, value in breakdown.items():
+                    breakdown_totals[key] = breakdown_totals.get(key, 0.0) + float(value)
+                breakdown_count += 1
             if batch_index + 1 >= max_batches:
                 break
     model.train()
-    return sum(losses) / max(1, len(losses))
+    metrics = {key: value / max(1, breakdown_count) for key, value in breakdown_totals.items()}
+    metrics["loss"] = sum(losses) / max(1, len(losses))
+    metrics["ppl"] = math.exp(min(metrics["loss"], 20.0))
+    return metrics
 
 
 def save_checkpoint(
@@ -195,7 +248,7 @@ def train(args: argparse.Namespace) -> None:
         collate_fn=collate_token_sequences,
     )
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    optimizer = build_optimizer(model, lr=args.lr, weight_decay=args.weight_decay)
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp and args.amp_dtype == "float16")
     max_steps = args.max_steps
     if max_steps is None and args.smoke_test:
@@ -214,6 +267,13 @@ def train(args: argparse.Namespace) -> None:
     model_dir_name = f"poem-{config.model_type.lower()}"
     metrics_dir = args.metrics_dir / model_dir_name
     checkpoint_dir = args.output_dir / model_dir_name
+    total_steps = max_steps if max_steps is not None else planned_epochs * max(1, len(train_loader))
+    scheduler = build_lr_scheduler(optimizer, args, total_steps)
+    print(
+        f"Optimizer: AdamW lr={args.lr}, matrix_weight_decay={args.weight_decay}, "
+        f"schedule={args.lr_schedule}, total_steps={total_steps}",
+        flush=True,
+    )
 
     for epoch in range(planned_epochs):
         epoch_start = time.time()
@@ -238,10 +298,13 @@ def train(args: argparse.Namespace) -> None:
                 loss_tensor.backward()
                 torch.nn.utils.clip_grad_norm_(model.parameters(), args.grad_clip)
                 optimizer.step()
+            if scheduler is not None:
+                scheduler.step()
 
             token_count = int((batch[:, 1:, 0] != TYPE_PAD).sum().item())
             tokens_seen += token_count
             loss_value = float(loss_tensor.detach())
+            current_lr = float(optimizer.param_groups[0]["lr"])
             recent_losses.append(loss_value)
             if len(first_losses) < 10:
                 first_losses.append(loss_value)
@@ -265,23 +328,26 @@ def train(args: argparse.Namespace) -> None:
                     "tokens_per_second": tokens_per_second,
                     "elapsed_seconds": elapsed,
                     "avg_loops_per_token": float(loops) if loops is not None else None,
+                    "lr": current_lr,
                 }
                 train_history.append(train_record)
                 print(
                     f"step={step} epoch={epoch + 1}/{planned_epochs} "
-                    f"loss={loss_value:.4f} tokens/sec={tokens_per_second:.1f}{loop_text}",
+                    f"loss={loss_value:.4f} lr={current_lr:.2e} tokens/sec={tokens_per_second:.1f}{loop_text}",
                     flush=True,
                 )
 
             if step % args.val_interval == 0:
-                val_loss = evaluate(model, val_loader, device=device, use_amp=use_amp, amp_dtype=amp_dtype)
+                val_metrics = evaluate(model, val_loader, device=device, use_amp=use_amp, amp_dtype=amp_dtype)
+                val_loss = val_metrics["loss"]
                 val_record = {
                     "model_type": config.model_type,
                     "step": step,
                     "epoch": epoch + 1,
                     "val_loss": val_loss,
-                    "val_ppl": math.exp(min(val_loss, 20.0)),
+                    "val_ppl": val_metrics["ppl"],
                     "elapsed_seconds": time.time() - start_time,
+                    "field_metrics": val_metrics,
                 }
                 val_history.append(val_record)
                 print(f"validation step={step} val_loss={val_loss:.4f}", flush=True)
@@ -338,18 +404,41 @@ def train(args: argparse.Namespace) -> None:
                 print(f"smoke summary: first_loss_avg={first:.4f}, last_loss_avg={last:.4f}", flush=True)
                 return
         if max_steps is None:
-            val_loss = evaluate(model, val_loader, device=device, use_amp=use_amp, amp_dtype=amp_dtype)
+            val_metrics = evaluate(model, val_loader, device=device, use_amp=use_amp, amp_dtype=amp_dtype)
+            val_loss = val_metrics["loss"]
             val_history.append(
                 {
                     "model_type": config.model_type,
                     "step": step,
                     "epoch": epoch + 1,
                     "val_loss": val_loss,
-                    "val_ppl": math.exp(min(val_loss, 20.0)),
+                    "val_ppl": val_metrics["ppl"],
                     "elapsed_seconds": time.time() - start_time,
+                    "field_metrics": val_metrics,
                 }
             )
             print(f"end epoch={epoch + 1} val_loss={val_loss:.4f}", flush=True)
+            if val_loss < best_val:
+                best_val = val_loss
+                ckpt_path = checkpoint_dir / f"{model_dir_name}-best.pt"
+                save_checkpoint(ckpt_path, model, optimizer, config, step, val_loss)
+                write_checkpoint_metrics(
+                    metrics_dir,
+                    checkpoint_history,
+                    ckpt_path,
+                    config.model_type,
+                    step,
+                    epoch + 1,
+                    train_history[-1]["train_loss"] if train_history else float("nan"),
+                    val_loss,
+                    tokens_seen,
+                    tokens_seen / max(time.time() - start_time, 1e-6),
+                    start_time,
+                    train_history,
+                    val_history,
+                    args,
+                )
+                upload_artifacts(args, ckpt_path, metrics_dir, model_dir_name)
             write_summary_metrics(
                 metrics_dir,
                 checkpoint_history,
@@ -486,6 +575,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--batch_size", type=int, default=32)
     parser.add_argument("--lr", type=float, default=3e-4)
     parser.add_argument("--weight_decay", type=float, default=0.1)
+    parser.add_argument("--lr_schedule", choices=["cosine", "none"], default="cosine")
+    parser.add_argument("--warmup_steps", type=int, default=0)
+    parser.add_argument("--warmup_ratio", type=float, default=0.03)
+    parser.add_argument("--min_lr_ratio", type=float, default=0.05)
     parser.add_argument("--grad_clip", type=float, default=1.0)
     parser.add_argument("--max_steps", type=int, default=None)
     parser.add_argument("--val_fraction", type=float, default=0.03)
