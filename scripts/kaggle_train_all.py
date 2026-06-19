@@ -2,7 +2,7 @@
 
 This script is meant for a Kaggle notebook with two attached datasets:
 
-- the POEM code repository mirror
+- the POEM-BASE code repository mirror
 - the Beautiful-Motifs MIDI dataset
 
 It trains D, C, E, B, and A in sequence, writes checkpoint/metric artifacts,
@@ -51,7 +51,7 @@ def upload_folder_files(folder: Path, repo_id: str | None, token: str | None, pa
 
 
 def write_model_card(path: Path, repo_id: str, epochs: int, model_order: list[str]) -> None:
-    text = f"""# POEM
+    text = f"""# POEM-BASE
 
 This repository stores POEM symbolic melody model checkpoints, metrics, and generated MIDI samples.
 

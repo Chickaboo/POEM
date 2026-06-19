@@ -92,7 +92,7 @@ python generate.py --checkpoint checkpoints/poem-a-best.pt --num_samples 8 --out
 
 Use [kaggle_poem_dual_t4.ipynb](kaggle_poem_dual_t4.ipynb) with two Kaggle datasets attached:
 
-- `POEM`: a mirror of this repository
+- `POEM-BASE`: a mirror of this repository
 - `Beautiful-Motifs-CC-BY-NC-SA`: the MIDI dataset
 
-The notebook asks for a Hugging Face write token, creates/updates a private model repository such as `your-name/POEM`, pretokenizes the short motifs, trains candidates in order `D C E B A`, writes checkpoint-level JSON metrics plus summary JSON files, generates five MIDI samples per completed candidate, and uploads artifacts under per-candidate folders.
+The notebook asks for a Hugging Face write token, creates/updates a private model repository such as `your-name/POEM-BASE`, pretokenizes the short motifs, trains candidates in order `D C E B A`, writes checkpoint-level JSON metrics plus summary JSON files, generates five MIDI samples per completed candidate, and uploads artifacts under per-candidate folders.
