@@ -31,6 +31,7 @@ class HybridBlock(nn.Module):
             use_flash_gdn=config.use_flash_gdn,
             fla_gdn_heads=config.hybrid_fla_gdn_heads,
             fla_gdn_head_dim=config.hybrid_fla_gdn_head_dim,
+            use_short_conv=config.hybrid_use_short_conv,
         )
         self.norm_ffn = RMSNorm(config.d_model)
         self.depth_ffn = depth_ffn
@@ -120,6 +121,7 @@ class PoemHybridRecursive(nn.Module):
             "hybrid_mixers": len(mixers),
             "flash_gdn_mixers": flash_count,
             "fallback_gdn_mixers": len(mixers) - flash_count,
+            "short_conv": bool(self.config.hybrid_use_short_conv),
             "flash_errors": sorted(set(errors)),
         }
 

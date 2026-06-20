@@ -31,6 +31,7 @@ class POEMConfig:
     hybrid_coda_layers: int = 2
     use_flash_gdn: bool = True
     require_flash_gdn: bool = False
+    hybrid_use_short_conv: bool = False
 
     @property
     def ffn_hidden_dim(self) -> int:
@@ -105,6 +106,7 @@ class PoemBackboneF(POEMConfig):
     hybrid_coda_layers: int = 2
     use_flash_gdn: bool = True
     require_flash_gdn: bool = False
+    hybrid_use_short_conv: bool = False
     use_rope: bool = True
     use_absolute_pos: bool = False
 
@@ -142,6 +144,7 @@ def config_for_model_type(model_type: str, smoke_test: bool = False) -> POEMConf
             config.hybrid_coda_layers = 1
             config.use_flash_gdn = False
             config.require_flash_gdn = False
+            config.hybrid_use_short_conv = False
     return config
 
 

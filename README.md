@@ -52,7 +52,9 @@ Candidate F is the speed-focused hybrid recursive architecture. Each mixer split
 channels 3:1 between a Gated DeltaNet branch and dense RoPE attention branch,
 then fuses them in one residual block. On Kaggle it uses the optional
 `flash-linear-attention` GDN layer when installed, with POEM's sequential GDN as
-a local fallback for tests and CPU debugging.
+a local fallback for tests and CPU debugging. F disables FLA's optional short
+convolution by default on Kaggle because the core GDN path is the important
+speedup and the short-conv Triton autotuner has been brittle on dual T4 sessions.
 
 ## Full Training
 
