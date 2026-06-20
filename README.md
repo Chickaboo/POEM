@@ -43,9 +43,16 @@ python train.py --model_type C --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_t
 python train.py --model_type B --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_test --max_steps 40
 python train.py --model_type E --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_test --max_steps 60
 python train.py --model_type A --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_test --max_steps 40
+python train.py --model_type F --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_test --max_steps 40
 ```
 
 Candidate A logs `loops/token`. Full runs use an ACT threshold of 0.99 and a hard `max_loops=6`; smoke mode lowers the threshold to verify early-stop plumbing with only two loops.
+
+Candidate F is the speed-focused hybrid recursive architecture. Each mixer splits
+channels 3:1 between a Gated DeltaNet branch and dense RoPE attention branch,
+then fuses them in one residual block. On Kaggle it uses the optional
+`flash-linear-attention` GDN layer when installed, with POEM's sequential GDN as
+a local fallback for tests and CPU debugging.
 
 ## Full Training
 
@@ -95,6 +102,6 @@ Use [kaggle_poem_dual_t4.ipynb](kaggle_poem_dual_t4.ipynb) with two Kaggle datas
 - `POEM-BASE`: a mirror of this repository
 - `Beautiful-Motifs-CC-BY-NC-SA`: the MIDI dataset
 
-The notebook asks for a Hugging Face write token, creates/updates a private model repository such as `your-name/POEM-BASE`, pretokenizes the short motifs, skips already-finished D/C/E by default, trains candidates in order `B A`, writes checkpoint-level JSON metrics plus summary JSON files, generates five MIDI samples per completed candidate, and uploads each completed model folder in a single Hugging Face commit.
+The notebook asks for a Hugging Face write token, creates/updates a private model repository such as `your-name/POEM-BASE`, pretokenizes the short motifs, skips already-finished D/C/E by default, trains candidates in order `F B A`, writes checkpoint-level JSON metrics plus summary JSON files, generates five MIDI samples per completed candidate, and uploads each completed model folder in a single Hugging Face commit.
 
-Default Kaggle batch sizes are per-architecture: C/E use 256, B uses 64, and A uses 32. The GDN/recurrent candidates need smaller batches on dual T4s because the sequential recurrence stores more activation state.
+Default Kaggle batch sizes are per-architecture: C/E use 256, F uses 128, B uses 64, and A uses 32. F installs `flash-linear-attention[cuda]` in the notebook so its GDN branch can use chunked GPU kernels instead of the slow sequential reference path.

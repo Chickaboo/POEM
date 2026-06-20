@@ -21,7 +21,7 @@ def main() -> None:
     parser.add_argument("--data_dir", required=True, type=Path)
     parser.add_argument("--epochs", type=int, default=DEFAULT_TRAIN_EPOCHS)
     parser.add_argument("--include_long_motifs", action="store_true")
-    parser.add_argument("--model_type", choices=["A", "B", "C", "D", "E"], default=None)
+    parser.add_argument("--model_type", choices=["A", "B", "C", "D", "E", "F"], default=None)
     parser.add_argument("--smoke_test", action="store_true")
     args = parser.parse_args()
 
@@ -30,7 +30,7 @@ def main() -> None:
     probe_config = config_for_model_type(args.model_type or "D", smoke_test=args.smoke_test)
     print(f"Counting tokenized events for {len(train_files)} training files...")
     dataset_tokens = count_tokenized_events(train_files, max_seq_len=probe_config.max_seq_len)
-    model_types = [args.model_type] if args.model_type else ["A", "B", "C", "D", "E"]
+    model_types = [args.model_type] if args.model_type else ["A", "B", "C", "D", "E", "F"]
     for model_type in model_types:
         config = config_for_model_type(model_type, smoke_test=args.smoke_test)
         model = build_model(config)

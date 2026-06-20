@@ -9,6 +9,7 @@ from models.backbone_b import PoemFusionNoRecursion
 from models.backbone_c import PoemRoPETransformer
 from models.backbone_d import PoemAbsoluteTransformer
 from models.backbone_e import PoemGDNAblation
+from models.backbone_f import PoemHybridRecursive
 from models.config import POEMConfig, config_for_model_type
 
 
@@ -28,6 +29,8 @@ def build_model(config: POEMConfig | None = None, model_type: str | None = None,
         return PoemFusionNoRecursion(config)
     if normalized == "E":
         return PoemGDNAblation(config)
+    if normalized == "F":
+        return PoemHybridRecursive(config)
     raise NotImplementedError(f"Candidate {normalized} has not been wired yet")
 
 

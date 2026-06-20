@@ -5,7 +5,7 @@ This script is meant for a Kaggle notebook with two attached datasets:
 - the POEM-BASE code repository mirror
 - the Beautiful-Motifs MIDI dataset
 
-It trains B and A by default because D, C, and E have already been run. It writes
+It trains F, B, and A by default because D, C, and E have already been run. It writes
 checkpoint/metric artifacts locally, generates five MIDI samples per completed
 candidate, and uploads each completed candidate folder to Hugging Face in a
 single commit to avoid Hub commit rate limits.
@@ -22,13 +22,14 @@ import time
 from pathlib import Path
 
 
-MODEL_ORDER = ["B", "A"]
+MODEL_ORDER = ["F", "B", "A"]
 DEFAULT_BATCH_BY_MODEL = {
     "A": 32,
     "B": 64,
     "C": 256,
     "D": 256,
     "E": 256,
+    "F": 128,
 }
 
 
@@ -46,6 +47,7 @@ def batch_size_for_model(args: argparse.Namespace, model_type: str) -> int:
         "C": args.batch_size_c,
         "D": args.batch_size_d,
         "E": args.batch_size_e,
+        "F": args.batch_size_f,
     }
     override = overrides.get(model_type)
     if override is not None:
@@ -153,6 +155,7 @@ def main() -> None:
     parser.add_argument("--batch_size_c", type=int, default=256)
     parser.add_argument("--batch_size_d", type=int, default=256)
     parser.add_argument("--batch_size_e", type=int, default=256)
+    parser.add_argument("--batch_size_f", type=int, default=128)
     parser.add_argument("--variants", nargs="+", default=MODEL_ORDER)
     parser.add_argument("--cache_path", type=Path, default=Path("/kaggle/working/cache/poem-short-token-cache.pt"))
     parser.add_argument("--output_dir", type=Path, default=Path("/kaggle/working/checkpoints"))

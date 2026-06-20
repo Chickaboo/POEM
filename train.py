@@ -565,7 +565,7 @@ def upload_artifacts(args: argparse.Namespace, ckpt_path: Path, metrics_dir: Pat
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model_type", choices=["A", "B", "C", "D", "E"], default="D")
+    parser.add_argument("--model_type", choices=["A", "B", "C", "D", "E", "F"], default="D")
     parser.add_argument("--data_dir", required=True, type=Path)
     parser.add_argument("--epochs", type=int, default=DEFAULT_TRAIN_EPOCHS)
     parser.add_argument("--include_long_motifs", action="store_true")
