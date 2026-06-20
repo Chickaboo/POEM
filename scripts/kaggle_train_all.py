@@ -5,7 +5,7 @@ This script is meant for a Kaggle notebook with two attached datasets:
 - the POEM-BASE code repository mirror
 - the Beautiful-Motifs MIDI dataset
 
-It trains C, E, B, and A by default because D has already been run. It writes
+It trains B and A by default because D, C, and E have already been run. It writes
 checkpoint/metric artifacts locally, generates five MIDI samples per completed
 candidate, and uploads each completed candidate folder to Hugging Face in a
 single commit to avoid Hub commit rate limits.
@@ -22,7 +22,7 @@ import time
 from pathlib import Path
 
 
-MODEL_ORDER = ["C", "E", "B", "A"]
+MODEL_ORDER = ["B", "A"]
 DEFAULT_BATCH_BY_MODEL = {
     "A": 32,
     "B": 64,

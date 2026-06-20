@@ -95,6 +95,6 @@ Use [kaggle_poem_dual_t4.ipynb](kaggle_poem_dual_t4.ipynb) with two Kaggle datas
 - `POEM-BASE`: a mirror of this repository
 - `Beautiful-Motifs-CC-BY-NC-SA`: the MIDI dataset
 
-The notebook asks for a Hugging Face write token, creates/updates a private model repository such as `your-name/POEM-BASE`, pretokenizes the short motifs, skips already-finished D by default, trains candidates in order `C E B A`, writes checkpoint-level JSON metrics plus summary JSON files, generates five MIDI samples per completed candidate, and uploads each completed model folder in a single Hugging Face commit.
+The notebook asks for a Hugging Face write token, creates/updates a private model repository such as `your-name/POEM-BASE`, pretokenizes the short motifs, skips already-finished D/C/E by default, trains candidates in order `B A`, writes checkpoint-level JSON metrics plus summary JSON files, generates five MIDI samples per completed candidate, and uploads each completed model folder in a single Hugging Face commit.
 
 Default Kaggle batch sizes are per-architecture: C/E use 256, B uses 64, and A uses 32. The GDN/recurrent candidates need smaller batches on dual T4s because the sequential recurrence stores more activation state.
