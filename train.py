@@ -196,6 +196,10 @@ def train(args: argparse.Namespace) -> None:
     use_amp = bool(args.amp and device.type == "cuda")
     amp_dtype = torch.float16 if args.amp_dtype == "float16" else torch.bfloat16
     config = config_for_model_type(args.model_type, smoke_test=args.smoke_test)
+    if hasattr(config, "require_flash_gdn"):
+        config.require_flash_gdn = bool(args.require_flash_gdn)
+    if args.require_flash_gdn and hasattr(config, "use_flash_gdn"):
+        config.use_flash_gdn = True
     model = build_model(config)
     param_count = count_parameters(model)
     model.to(device)
@@ -208,6 +212,9 @@ def train(args: argparse.Namespace) -> None:
     train_files, val_files = split_files(files, val_fraction=args.val_fraction, seed=args.seed, smoke_test=args.smoke_test)
     token_cache = load_token_cache(args.token_cache if args.token_cache.exists() else None)
     print(f"POEM candidate {config.model_type}: {param_count:,} trainable parameters", flush=True)
+    status_fn = getattr(unwrap_model(model), "hybrid_gdn_status", None)
+    if callable(status_fn):
+        print(f"Hybrid GDN status: {status_fn()}", flush=True)
     print(f"Files: train={len(train_files)}, val={len(val_files)}, include_long={args.include_long_motifs}", flush=True)
     if token_cache:
         print(f"Loaded pretokenized cache: {args.token_cache} ({len(token_cache)} files)", flush=True)
@@ -595,6 +602,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--amp", action="store_true")
     parser.add_argument("--amp_dtype", choices=["float16", "bfloat16"], default="float16")
     parser.add_argument("--data_parallel", action="store_true")
+    parser.add_argument("--require_flash_gdn", action="store_true")
     parser.add_argument("--num_workers", type=int, default=0)
     parser.add_argument("--hf_repo_id", default=None)
     parser.add_argument("--hf_token", default=os.environ.get("HF_TOKEN"))

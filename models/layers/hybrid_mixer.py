@@ -97,6 +97,10 @@ class HybridGDNRoPEMixer(nn.Module):
     def using_flash_gdn(self) -> bool:
         return self.gdn.using_flash
 
+    @property
+    def flash_error(self) -> str | None:
+        return self.gdn.flash_error
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         gdn_out = self.gdn(self.gdn_in(x))
         attn_out = self.attn(self.attn_in(x))

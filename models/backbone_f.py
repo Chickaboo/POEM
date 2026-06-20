@@ -110,6 +110,32 @@ class PoemHybridRecursive(nn.Module):
         self.coda = nn.ModuleList([HybridBlock(config) for _ in range(config.hybrid_coda_layers)])
         self.norm = RMSNorm(config.d_model)
         self.heads = FieldedOutputHeads(config.d_model)
+        self._validate_flash_gdn_requirement()
+
+    def hybrid_gdn_status(self) -> dict[str, object]:
+        mixers = [module for module in self.modules() if isinstance(module, HybridGDNRoPEMixer)]
+        flash_count = sum(1 for mixer in mixers if mixer.using_flash_gdn)
+        errors = [mixer.flash_error for mixer in mixers if mixer.flash_error]
+        return {
+            "hybrid_mixers": len(mixers),
+            "flash_gdn_mixers": flash_count,
+            "fallback_gdn_mixers": len(mixers) - flash_count,
+            "flash_errors": sorted(set(errors)),
+        }
+
+    def _validate_flash_gdn_requirement(self) -> None:
+        if not getattr(self.config, "require_flash_gdn", False):
+            return
+        status = self.hybrid_gdn_status()
+        if int(status["fallback_gdn_mixers"]) == 0:
+            return
+        errors = status["flash_errors"]
+        details = "; ".join(str(error) for error in errors) if errors else "unknown import/initialization error"
+        raise RuntimeError(
+            "Candidate F was configured with require_flash_gdn=True, but at least one "
+            f"hybrid mixer fell back to POEM's sequential GDN. Install a working "
+            f"flash-linear-attention CUDA build before training. Import error: {details}"
+        )
 
     def forward(self, token_ids: torch.Tensor, targets: torch.Tensor | None = None) -> POEMModelOutput:
         x = self.embed(token_ids)

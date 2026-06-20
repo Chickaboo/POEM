@@ -218,42 +218,42 @@ def main() -> None:
         model_batch_size = batch_size_for_model(args, model_type)
         print(f"Training candidate {model_type} with batch_size={model_batch_size}", flush=True)
 
-        run(
-            [
-                sys.executable,
-                "-u",
-                "train.py",
-                "--model_type",
-                model_type,
-                "--data_dir",
-                str(args.data_dir),
-                "--epochs",
-                str(args.epochs),
-                "--batch_size",
-                str(model_batch_size),
-                "--token_cache",
-                str(args.cache_path),
-                "--output_dir",
-                str(args.output_dir),
-                "--metrics_dir",
-                str(args.metrics_dir),
-                "--val_interval",
-                str(args.val_interval),
-                "--checkpoint_interval_steps",
-                str(args.checkpoint_interval_steps),
-                "--checkpoint_interval_minutes",
-                str(args.checkpoint_interval_minutes),
-                "--device",
-                "cuda",
-                "--amp",
-                "--amp_dtype",
-                "float16",
-                "--data_parallel",
-                "--num_workers",
-                str(args.num_workers),
-            ],
-            args.repo_dir,
-        )
+        train_command = [
+            sys.executable,
+            "-u",
+            "train.py",
+            "--model_type",
+            model_type,
+            "--data_dir",
+            str(args.data_dir),
+            "--epochs",
+            str(args.epochs),
+            "--batch_size",
+            str(model_batch_size),
+            "--token_cache",
+            str(args.cache_path),
+            "--output_dir",
+            str(args.output_dir),
+            "--metrics_dir",
+            str(args.metrics_dir),
+            "--val_interval",
+            str(args.val_interval),
+            "--checkpoint_interval_steps",
+            str(args.checkpoint_interval_steps),
+            "--checkpoint_interval_minutes",
+            str(args.checkpoint_interval_minutes),
+            "--device",
+            "cuda",
+            "--amp",
+            "--amp_dtype",
+            "float16",
+            "--data_parallel",
+            "--num_workers",
+            str(args.num_workers),
+        ]
+        if model_type.upper() == "F":
+            train_command.append("--require_flash_gdn")
+        run(train_command, args.repo_dir)
 
         model_name = f"poem-{model_type.lower()}"
         ckpt = latest_checkpoint(args.output_dir / model_name, model_type)
