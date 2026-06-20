@@ -37,6 +37,8 @@ def run(command: list[str], cwd: Path) -> None:
     print("\n$ " + " ".join(command), flush=True)
     env = os.environ.copy()
     env.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+    env.setdefault("TRITON_CACHE_AUTOTUNING", "0")
+    env.setdefault("FLA_CACHE_MODE", "disabled")
     subprocess.run(command, cwd=cwd, check=True, env=env)
 
 
@@ -166,6 +168,7 @@ def main() -> None:
     parser.add_argument("--checkpoint_interval_steps", type=int, default=5000)
     parser.add_argument("--checkpoint_interval_minutes", type=float, default=20.0)
     parser.add_argument("--num_workers", type=int, default=2)
+    parser.add_argument("--pretokenize_workers", type=int, default=8)
     parser.add_argument("--max_hours", type=float, default=11.75)
     parser.add_argument("--samples_per_model", type=int, default=5)
     parser.add_argument("--private", action="store_true")
@@ -203,6 +206,8 @@ def main() -> None:
                 str(args.cache_path),
                 "--log_interval",
                 "5000",
+                "--workers",
+                str(args.pretokenize_workers),
             ],
             args.repo_dir,
         )

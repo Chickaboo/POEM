@@ -55,8 +55,8 @@ then fuses them in one residual block. On Kaggle it uses the optional
 a local fallback for tests and CPU debugging. F disables FLA's optional short
 convolution by default on Kaggle because the core GDN path is the important
 speedup and the short-conv Triton autotuner has been brittle on dual T4 sessions.
-It also defaults FLA GDN to `fused_recurrent` mode on T4 because the `chunk`
-mode's Triton autotuning path has been brittle in Kaggle's CUDA/Triton stack.
+FLA requires `chunk` mode for training, so POEM applies a narrow Triton
+autotuner compatibility patch in `train.py` for Kaggle's CUDA/Triton stack.
 
 ## Full Training
 
@@ -70,6 +70,10 @@ Build the short-motif token cache once:
 ```bash
 python -u scripts/pretokenize.py --data_dir Beautiful-Motifs-CC-BY-NC-SA --output cache/poem-short-token-cache.pt
 ```
+
+Use `--workers N` to parallelize MIDI tokenization across CPU cores. On Kaggle,
+the notebook defaults to `--pretokenize_workers 8` for the cache build while
+keeping training DataLoader workers separate.
 
 ```bash
 python -u train.py --model_type D --data_dir Beautiful-Motifs-CC-BY-NC-SA --epochs 40 --batch_size 32 --val_interval 2000 --token_cache cache/poem-short-token-cache.pt

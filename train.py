@@ -61,6 +61,23 @@ def metric_to_float(value) -> float | None:
     return float(value)
 
 
+def patch_triton_autotune_all_kwargs() -> None:
+    try:
+        from triton.runtime.autotuner import Config
+    except Exception:
+        return
+    if getattr(Config, "_poem_all_kwargs_patch", False):
+        return
+    original = Config.all_kwargs
+
+    def safe_all_kwargs(self):
+        value = original(self)
+        return {} if value is None else value
+
+    Config.all_kwargs = safe_all_kwargs
+    Config._poem_all_kwargs_patch = True
+
+
 def args_payload(args: argparse.Namespace) -> dict:
     payload = vars(args).copy()
     if payload.get("hf_token"):
@@ -208,6 +225,8 @@ def train(args: argparse.Namespace) -> None:
         config.require_flash_gdn = bool(args.require_flash_gdn)
     if args.require_flash_gdn and hasattr(config, "use_flash_gdn"):
         config.use_flash_gdn = True
+    if config.model_type.upper() == "F" and device.type == "cuda":
+        patch_triton_autotune_all_kwargs()
     model = build_model(config)
     param_count = count_parameters(model)
     model.to(device)
