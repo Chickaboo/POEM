@@ -112,4 +112,4 @@ Use [kaggle_poem_dual_t4.ipynb](kaggle_poem_dual_t4.ipynb) with two Kaggle datas
 
 The notebook asks for a Hugging Face write token, creates/updates a private model repository such as `your-name/POEM-BASE`, pretokenizes the short motifs, skips already-finished D/C/E by default, trains candidates in order `F B A`, writes checkpoint-level JSON metrics plus summary JSON files, generates five MIDI samples per completed candidate, and uploads each completed model folder in a single Hugging Face commit.
 
-Default Kaggle batch sizes are per-architecture: C/E use 256, F uses 128, B uses 64, and A uses 32. F installs `flash-linear-attention[cuda]` in the notebook so its GDN branch can use chunked GPU kernels instead of the slow sequential reference path.
+Default Kaggle batch sizes are per-architecture: C/E use 256, F uses 64, B uses 64, and A uses 32. F installs `flash-linear-attention[cuda]` in the notebook so its GDN branch can use chunked GPU kernels instead of the slow sequential reference path. F runs in single-GPU mode because FLA/Triton kernels have been unstable under `torch.nn.DataParallel`.

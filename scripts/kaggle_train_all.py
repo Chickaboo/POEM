@@ -158,6 +158,7 @@ def main() -> None:
     parser.add_argument("--batch_size_d", type=int, default=256)
     parser.add_argument("--batch_size_e", type=int, default=256)
     parser.add_argument("--batch_size_f", type=int, default=128)
+    parser.add_argument("--batch_size_f_single_gpu", type=int, default=64)
     parser.add_argument("--variants", nargs="+", default=MODEL_ORDER)
     parser.add_argument("--cache_path", type=Path, default=Path("/kaggle/working/cache/poem-short-token-cache.pt"))
     parser.add_argument("--output_dir", type=Path, default=Path("/kaggle/working/checkpoints"))
@@ -221,6 +222,13 @@ def main() -> None:
             print(f"Stopping before {model_type}; max_hours={args.max_hours} reached.", flush=True)
             break
         model_batch_size = batch_size_for_model(args, model_type)
+        if model_type.upper() == "F" and model_batch_size > args.batch_size_f_single_gpu:
+            print(
+                f"Reducing candidate F batch_size from {model_batch_size} to "
+                f"{args.batch_size_f_single_gpu} because FLA GDN runs in single-GPU mode.",
+                flush=True,
+            )
+            model_batch_size = args.batch_size_f_single_gpu
         print(f"Training candidate {model_type} with batch_size={model_batch_size}", flush=True)
 
         train_command = [

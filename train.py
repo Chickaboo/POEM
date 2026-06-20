@@ -242,7 +242,19 @@ def train(args: argparse.Namespace) -> None:
     model = build_model(config)
     param_count = count_parameters(model)
     model.to(device)
-    if args.data_parallel and device.type == "cuda" and torch.cuda.device_count() > 1:
+    disable_data_parallel = (
+        config.model_type.upper() == "F"
+        and bool(args.require_flash_gdn)
+        and device.type == "cuda"
+        and torch.cuda.device_count() > 1
+    )
+    if disable_data_parallel:
+        print(
+            "Using single-GPU mode for Candidate F with FLA GDN; "
+            "Triton FLA kernels are unstable under torch.nn.DataParallel.",
+            flush=True,
+        )
+    elif args.data_parallel and device.type == "cuda" and torch.cuda.device_count() > 1:
         model = torch.nn.DataParallel(model)
         print(f"Using DataParallel on {torch.cuda.device_count()} CUDA devices", flush=True)
     print(f"Device: {device}, amp={use_amp}, amp_dtype={args.amp_dtype}", flush=True)
