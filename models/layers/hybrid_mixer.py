@@ -25,6 +25,7 @@ class OptionalFlashGatedDeltaNet(nn.Module):
         fla_num_heads: int | None = None,
         fla_head_dim: int | None = None,
         use_short_conv: bool = False,
+        mode: str = "fused_recurrent",
     ) -> None:
         super().__init__()
         self.using_flash = False
@@ -35,7 +36,7 @@ class OptionalFlashGatedDeltaNet(nn.Module):
 
                 kwargs = {
                     "hidden_size": dim,
-                    "mode": "chunk",
+                    "mode": mode,
                     "use_gate": True,
                     "use_short_conv": use_short_conv,
                 }
@@ -72,6 +73,7 @@ class HybridGDNRoPEMixer(nn.Module):
         fla_gdn_heads: int | None = None,
         fla_gdn_head_dim: int | None = None,
         use_short_conv: bool = False,
+        fla_mode: str = "fused_recurrent",
     ) -> None:
         super().__init__()
         if gdn_dim + attn_dim != dim:
@@ -86,6 +88,7 @@ class HybridGDNRoPEMixer(nn.Module):
             fla_num_heads=fla_gdn_heads,
             fla_head_dim=fla_gdn_head_dim,
             use_short_conv=use_short_conv,
+            mode=fla_mode,
         )
         self.attn = RoPECausalSelfAttention(
             attn_dim,

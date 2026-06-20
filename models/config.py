@@ -32,6 +32,7 @@ class POEMConfig:
     use_flash_gdn: bool = True
     require_flash_gdn: bool = False
     hybrid_use_short_conv: bool = False
+    hybrid_fla_mode: str = "fused_recurrent"
 
     @property
     def ffn_hidden_dim(self) -> int:
@@ -107,6 +108,7 @@ class PoemBackboneF(POEMConfig):
     use_flash_gdn: bool = True
     require_flash_gdn: bool = False
     hybrid_use_short_conv: bool = False
+    hybrid_fla_mode: str = "fused_recurrent"
     use_rope: bool = True
     use_absolute_pos: bool = False
 
@@ -145,6 +147,7 @@ def config_for_model_type(model_type: str, smoke_test: bool = False) -> POEMConf
             config.use_flash_gdn = False
             config.require_flash_gdn = False
             config.hybrid_use_short_conv = False
+            config.hybrid_fla_mode = "fused_recurrent"
     return config
 
 

@@ -55,6 +55,8 @@ then fuses them in one residual block. On Kaggle it uses the optional
 a local fallback for tests and CPU debugging. F disables FLA's optional short
 convolution by default on Kaggle because the core GDN path is the important
 speedup and the short-conv Triton autotuner has been brittle on dual T4 sessions.
+It also defaults FLA GDN to `fused_recurrent` mode on T4 because the `chunk`
+mode's Triton autotuning path has been brittle in Kaggle's CUDA/Triton stack.
 
 ## Full Training
 
