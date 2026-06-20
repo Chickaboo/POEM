@@ -61,21 +61,33 @@ def metric_to_float(value) -> float | None:
     return float(value)
 
 
-def patch_triton_autotune_all_kwargs() -> None:
+def patch_triton_autotune_for_kaggle() -> None:
     try:
-        from triton.runtime.autotuner import Config
+        from triton.runtime import autotuner
     except Exception:
         return
-    if getattr(Config, "_poem_all_kwargs_patch", False):
+
+    Config = getattr(autotuner, "Config", None)
+    if Config is not None and not getattr(Config, "_poem_all_kwargs_patch", False):
+        original = Config.all_kwargs
+
+        def safe_all_kwargs(self):
+            value = original(self)
+            return {} if value is None else value
+
+        Config.all_kwargs = safe_all_kwargs
+        Config._poem_all_kwargs_patch = True
+
+    Autotuner = getattr(autotuner, "Autotuner", None)
+    if Autotuner is None or getattr(Autotuner, "_poem_disable_disk_cache_patch", False):
         return
-    original = Config.all_kwargs
 
-    def safe_all_kwargs(self):
-        value = original(self)
-        return {} if value is None else value
+    def skip_disk_cache(self, key, pruned_configs, benchmark):
+        return False
 
-    Config.all_kwargs = safe_all_kwargs
-    Config._poem_all_kwargs_patch = True
+    Autotuner.check_disk_cache = skip_disk_cache
+    Autotuner._poem_disable_disk_cache_patch = True
+    print("Applied POEM Triton autotuner compatibility patch.", flush=True)
 
 
 def args_payload(args: argparse.Namespace) -> dict:
@@ -226,7 +238,7 @@ def train(args: argparse.Namespace) -> None:
     if args.require_flash_gdn and hasattr(config, "use_flash_gdn"):
         config.use_flash_gdn = True
     if config.model_type.upper() == "F" and device.type == "cuda":
-        patch_triton_autotune_all_kwargs()
+        patch_triton_autotune_for_kaggle()
     model = build_model(config)
     param_count = count_parameters(model)
     model.to(device)
