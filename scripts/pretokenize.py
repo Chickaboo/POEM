@@ -9,8 +9,6 @@ import sys
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
-import torch
-
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -19,13 +17,13 @@ from tokenizer.midi_to_tokens import tokenize_midi
 from training.data import cache_key_for_path, discover_motif_files, events_to_tensor, save_token_cache
 
 
-def tokenize_one(path: Path) -> tuple[str, str, torch.Tensor, int, str | None]:
+def tokenize_one(path: Path) -> tuple[str, str, list[tuple[int, int, int, int, int]], int, str | None]:
     try:
         result = tokenize_midi(path)
-        tensor = events_to_tensor(result.events)
-        return str(path), cache_key_for_path(path), tensor, int(tensor.shape[0]), None
+        events = [tuple(int(value) for value in event) for event in result.events]
+        return str(path), cache_key_for_path(path), events, len(events), None
     except Exception as exc:  # pragma: no cover - dataset hygiene reporting
-        return str(path), cache_key_for_path(path), torch.empty((0, 5), dtype=torch.uint8), 0, str(exc)
+        return str(path), cache_key_for_path(path), [], 0, str(exc)
 
 
 def log_progress(index: int, total: int, total_events: int, start: float) -> None:
@@ -67,9 +65,9 @@ def main() -> None:
 
     if workers <= 1:
         for index, path in enumerate(files, start=1):
-            source, key, tensor, event_count, error = tokenize_one(path)
+            source, key, events, event_count, error = tokenize_one(path)
             if error is None:
-                records[key] = tensor
+                records[key] = events_to_tensor(events)
                 total_events += event_count
             else:
                 failures.append((source, error))
@@ -79,9 +77,9 @@ def main() -> None:
         max_workers = min(workers, os.cpu_count() or workers)
         with ProcessPoolExecutor(max_workers=max_workers) as executor:
             results = executor.map(tokenize_one, files, chunksize=max(1, args.chunksize))
-            for index, (source, key, tensor, event_count, error) in enumerate(results, start=1):
+            for index, (source, key, events, event_count, error) in enumerate(results, start=1):
                 if error is None:
-                    records[key] = tensor
+                    records[key] = events_to_tensor(events)
                     total_events += event_count
                 else:
                     failures.append((source, error))
