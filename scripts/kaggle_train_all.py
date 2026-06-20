@@ -23,11 +23,36 @@ from pathlib import Path
 
 
 MODEL_ORDER = ["C", "E", "B", "A"]
+DEFAULT_BATCH_BY_MODEL = {
+    "A": 32,
+    "B": 64,
+    "C": 256,
+    "D": 256,
+    "E": 256,
+}
 
 
 def run(command: list[str], cwd: Path) -> None:
     print("\n$ " + " ".join(command), flush=True)
-    subprocess.run(command, cwd=cwd, check=True)
+    env = os.environ.copy()
+    env.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+    subprocess.run(command, cwd=cwd, check=True, env=env)
+
+
+def batch_size_for_model(args: argparse.Namespace, model_type: str) -> int:
+    overrides = {
+        "A": args.batch_size_a,
+        "B": args.batch_size_b,
+        "C": args.batch_size_c,
+        "D": args.batch_size_d,
+        "E": args.batch_size_e,
+    }
+    override = overrides.get(model_type)
+    if override is not None:
+        return override
+    if args.batch_size is not None:
+        return args.batch_size
+    return DEFAULT_BATCH_BY_MODEL[model_type]
 
 
 def upload_single_commit(
@@ -122,7 +147,12 @@ def main() -> None:
     parser.add_argument("--hf_repo_id", required=True)
     parser.add_argument("--hf_token", default=os.environ.get("HF_TOKEN"))
     parser.add_argument("--epochs", type=int, default=40)
-    parser.add_argument("--batch_size", type=int, default=256)
+    parser.add_argument("--batch_size", type=int, default=None)
+    parser.add_argument("--batch_size_a", type=int, default=32)
+    parser.add_argument("--batch_size_b", type=int, default=64)
+    parser.add_argument("--batch_size_c", type=int, default=256)
+    parser.add_argument("--batch_size_d", type=int, default=256)
+    parser.add_argument("--batch_size_e", type=int, default=256)
     parser.add_argument("--variants", nargs="+", default=MODEL_ORDER)
     parser.add_argument("--cache_path", type=Path, default=Path("/kaggle/working/cache/poem-short-token-cache.pt"))
     parser.add_argument("--output_dir", type=Path, default=Path("/kaggle/working/checkpoints"))
@@ -182,6 +212,8 @@ def main() -> None:
         if elapsed_hours >= args.max_hours:
             print(f"Stopping before {model_type}; max_hours={args.max_hours} reached.", flush=True)
             break
+        model_batch_size = batch_size_for_model(args, model_type)
+        print(f"Training candidate {model_type} with batch_size={model_batch_size}", flush=True)
 
         run(
             [
@@ -195,7 +227,7 @@ def main() -> None:
                 "--epochs",
                 str(args.epochs),
                 "--batch_size",
-                str(args.batch_size),
+                str(model_batch_size),
                 "--token_cache",
                 str(args.cache_path),
                 "--output_dir",
