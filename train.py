@@ -53,6 +53,14 @@ def json_safe(value):
     return value
 
 
+def metric_to_float(value) -> float | None:
+    if value is None:
+        return None
+    if isinstance(value, torch.Tensor):
+        return float(value.detach().float().mean().cpu())
+    return float(value)
+
+
 def args_payload(args: argparse.Namespace) -> dict:
     payload = vars(args).copy()
     if payload.get("hf_token"):
@@ -323,7 +331,8 @@ def train(args: argparse.Namespace) -> None:
             if step % args.log_interval == 0 or step == 1:
                 metrics = output.metrics or {}
                 loops = metrics.get("avg_loops_per_token")
-                loop_text = f", loops/token={float(loops):.2f}" if loops is not None else ""
+                loop_value = metric_to_float(loops)
+                loop_text = f", loops/token={loop_value:.2f}" if loop_value is not None else ""
                 train_record = {
                     "model_type": config.model_type,
                     "step": step,
@@ -334,7 +343,7 @@ def train(args: argparse.Namespace) -> None:
                     "tokens_seen": tokens_seen,
                     "tokens_per_second": tokens_per_second,
                     "elapsed_seconds": elapsed,
-                    "avg_loops_per_token": float(loops) if loops is not None else None,
+                    "avg_loops_per_token": loop_value,
                     "lr": current_lr,
                 }
                 train_history.append(train_record)

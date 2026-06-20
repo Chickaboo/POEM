@@ -94,7 +94,7 @@ class HybridAdaptiveRecurrentBlock(nn.Module):
         halt_stack = torch.stack(halt_values, dim=0)
         metrics: dict[str, torch.Tensor | float] = {
             "avg_loops_per_token": avg_loops.detach(),
-            "actual_recurrent_steps": float(actual_steps),
+            "actual_recurrent_steps": state.new_tensor(float(actual_steps)),
             "halt_prob_mean": halt_stack.mean().detach(),
             "halt_prob_max": halt_stack.max().detach(),
         }
