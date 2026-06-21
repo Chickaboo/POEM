@@ -1,0 +1,92 @@
+{
+  "type": "CustomDeltaTokenizer",
+  "version": 3,
+  "spec_version": 3,
+  "frozen": true,
+  "vocab_size": 374,
+  "default_velocity": 88,
+  "event_size": 4,
+  "include_special_tokens": false,
+  "include_structural_meta_tokens": true,
+  "prepend_start_token": true,
+  "quantization": {
+    "delta": {
+      "bins": 128,
+      "scheme": "logspace_floor",
+      "zero_bin": true,
+      "min_positive_seconds": 0.0001,
+      "max_seconds": 8.0
+    },
+    "duration": {
+      "bins": 128,
+      "scheme": "logspace_floor",
+      "min_seconds": 0.015625,
+      "max_seconds": 8.0
+    },
+    "velocity": {
+      "bins": 16,
+      "scheme": "uniform_floor",
+      "midi_range": [
+        0,
+        127
+      ]
+    }
+  },
+  "density_quartiles": [
+    1.0,
+    2.5,
+    5.0
+  ],
+  "token_ids": {
+    "delta": [
+      0,
+      127
+    ],
+    "pitch": [
+      128,
+      215
+    ],
+    "duration": [
+      216,
+      343
+    ],
+    "velocity": [
+      344,
+      359
+    ],
+    "density": [
+      363,
+      366
+    ],
+    "voices": [
+      367,
+      370
+    ],
+    "register": [
+      371,
+      373
+    ],
+    "pad": 360,
+    "bos": 361,
+    "eos": 362
+  },
+  "token_labels": {
+    "density": [
+      "v_low",
+      "low",
+      "med",
+      "high"
+    ],
+    "voices": [
+      "mono",
+      "poly_small",
+      "poly_med",
+      "poly_large"
+    ],
+    "register": [
+      "bass",
+      "mid",
+      "treble"
+    ]
+  }
+}

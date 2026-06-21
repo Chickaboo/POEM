@@ -1,0 +1,771 @@
+=== poem-g-sample-000.mid ===
+tempo_bpm: 120.00
+notes: 67
+
+letter_sequence:
+G5(sixteenth) Rest(sixteenth) B4(sixteenth) F#4(sixteenth) G5(sixteenth) D#6(sixteenth) Rest(sixteenth) G5(dotted-eighth) G5(dotted-eighth) Rest(sixteenth) D#5(dotted-eighth) C5(dotted-eighth) Rest(sixteenth) A4(dotted-eighth) A4(dotted-eighth) Rest(sixteenth) A4(dotted-eighth) A4(dotted-eighth) Rest(sixteenth) A4(dotted-eighth) F5(dotted-eighth) G4(dotted-eighth) Rest(sixteenth) D#5(dotted-eighth) G4(dotted-eighth) Rest(sixteenth) F5(dotted-eighth) G4(dotted-eighth) D5(dotted-eighth) Rest(sixteenth) D5(dotted-eighth) G4(dotted-eighth) G#5(eighth) D#5(sixteenth) Rest(sixteenth) D#5(dotted-eighth) A#4(dotted-eighth) G5(dotted-eighth) Rest(sixteenth) G#5(sixteenth) G5(sixteenth) F5(sixteenth) C5(sixteenth) F4(eighth) G#4(sixteenth) Rest(sixteenth) G#4(sixteenth) G#4(sixteenth) Rest(sixteenth) G#5(quarter) F4(dotted-eighth) F#5(dotted-eighth) C#5(dotted-eighth) Rest(sixteenth) F5(dotted-eighth) G#5(dotted-eighth) G#5(dotted-eighth) G#4(dotted-eighth) Rest(sixteenth) G5(dotted-eighth) C5(dotted-eighth) Rest(sixteenth) F5(dotted-eighth) G#4(dotted-eighth) E5(dotted-eighth) A4(quarter) D5(dotted-eighth) A#3(dotted-eighth) Rest(sixteenth) G5(dotted-eighth) A5(dotted-eighth) Rest(sixteenth) D#5(dotted-eighth) A4(dotted-eighth) G5(dotted-eighth) Rest(sixteenth) D#5(dotted-eighth) C6(dotted-eighth) Rest(sixteenth) D5(dotted-eighth) C5(dotted-eighth) D#6(dotted-eighth) Rest(sixteenth) D4(dotted-eighth) G6(dotted-eighth) F6(dotted-eighth) Rest(sixteenth) E6(dotted-eighth) A#5(dotted-eighth)
+
+timed_events:
+1:1.000  G5   dur=sixteenth      velocity=68
+1:1.250  Rest  dur=sixteenth
+1:1.500  B4   dur=sixteenth      velocity=76
+1:1.750  F#4  dur=sixteenth      velocity=76
+1:2.000  G5   dur=sixteenth      velocity=76
+1:2.250  D#6  dur=sixteenth      velocity=84
+1:2.500  Rest  dur=sixteenth
+1:2.750  G5   dur=dotted-eighth  velocity=84
+1:3.500  G5   dur=dotted-eighth  velocity=76
+1:4.250  Rest  dur=sixteenth
+1:4.500  D#5  dur=dotted-eighth  velocity=76
+2:1.250  C5   dur=dotted-eighth  velocity=68
+2:2.000  Rest  dur=sixteenth
+2:2.250  A4   dur=dotted-eighth  velocity=68
+2:3.000  A4   dur=dotted-eighth  velocity=68
+2:3.750  Rest  dur=sixteenth
+2:4.000  A4   dur=dotted-eighth  velocity=68
+2:4.750  A4   dur=dotted-eighth  velocity=76
+3:1.500  Rest  dur=sixteenth
+3:1.750  A4   dur=dotted-eighth  velocity=76
+3:2.500  F5   dur=dotted-eighth  velocity=76
+3:3.250  G4   dur=dotted-eighth  velocity=68
+3:4.000  Rest  dur=sixteenth
+3:4.250  D#5  dur=dotted-eighth  velocity=76
+4:1.000  G4   dur=dotted-eighth  velocity=68
+4:1.750  Rest  dur=sixteenth
+4:2.000  F5   dur=dotted-eighth  velocity=68
+4:2.750  G4   dur=dotted-eighth  velocity=76
+4:3.500  D5   dur=dotted-eighth  velocity=76
+4:4.250  Rest  dur=sixteenth
+4:4.500  D5   dur=dotted-eighth  velocity=68
+5:1.250  G4   dur=dotted-eighth  velocity=76
+5:2.000  G#5  dur=eighth         velocity=76
+5:2.500  D#5  dur=sixteenth      velocity=68
+5:2.750  Rest  dur=sixteenth
+5:3.000  D#5  dur=dotted-eighth  velocity=76
+5:3.750  A#4  dur=dotted-eighth  velocity=76
+5:4.500  G5   dur=dotted-eighth  velocity=76
+6:1.250  Rest  dur=sixteenth
+6:1.500  G#5  dur=sixteenth      velocity=76
+6:1.750  G5   dur=sixteenth      velocity=68
+6:2.000  F5   dur=sixteenth      velocity=68
+6:2.250  C5   dur=sixteenth      velocity=76
+6:2.500  F4   dur=eighth         velocity=76
+6:3.000  G#4  dur=sixteenth      velocity=68
+6:3.250  Rest  dur=sixteenth
+6:3.500  G#4  dur=sixteenth      velocity=76
+6:3.750  G#4  dur=sixteenth      velocity=68
+6:4.000  Rest  dur=sixteenth
+6:4.250  G#5  dur=quarter        velocity=76
+7:1.250  F4   dur=dotted-eighth  velocity=68
+7:2.000  F#5  dur=dotted-eighth  velocity=76
+7:2.750  C#5  dur=dotted-eighth  velocity=76
+7:3.500  Rest  dur=sixteenth
+7:3.750  F5   dur=dotted-eighth  velocity=76
+7:4.500  G#5  dur=dotted-eighth  velocity=68
+8:1.250  G#5  dur=dotted-eighth  velocity=76
+8:2.000  G#4  dur=dotted-eighth  velocity=60
+8:2.750  Rest  dur=sixteenth
+8:3.000  G5   dur=dotted-eighth  velocity=76
+8:3.750  C5   dur=dotted-eighth  velocity=76
+8:4.500  Rest  dur=sixteenth
+8:4.750  F5   dur=dotted-eighth  velocity=76
+9:1.500  G#4  dur=dotted-eighth  velocity=76
+9:2.250  E5   dur=dotted-eighth  velocity=76
+9:3.000  A4   dur=quarter        velocity=68
+9:4.000  D5   dur=dotted-eighth  velocity=76
+9:4.750  A#3  dur=dotted-eighth  velocity=76
+10:1.500  Rest  dur=sixteenth
+10:1.750  G5   dur=dotted-eighth  velocity=76
+10:2.500  A5   dur=dotted-eighth  velocity=76
+10:3.250  Rest  dur=sixteenth
+10:3.500  D#5  dur=dotted-eighth  velocity=76
+10:4.250  A4   dur=dotted-eighth  velocity=76
+11:1.000  G5   dur=dotted-eighth  velocity=76
+11:1.750  Rest  dur=sixteenth
+11:2.000  D#5  dur=dotted-eighth  velocity=84
+11:2.750  C6   dur=dotted-eighth  velocity=76
+11:3.500  Rest  dur=sixteenth
+11:3.750  D5   dur=dotted-eighth  velocity=84
+11:4.500  C5   dur=dotted-eighth  velocity=68
+12:1.250  D#6  dur=dotted-eighth  velocity=92
+12:2.000  Rest  dur=sixteenth
+12:2.250  D4   dur=dotted-eighth  velocity=92
+12:3.000  G6   dur=dotted-eighth  velocity=92
+12:3.750  F6   dur=dotted-eighth  velocity=92
+12:4.500  Rest  dur=sixteenth
+12:4.750  E6   dur=dotted-eighth  velocity=84
+13:1.500  A#5  dur=dotted-eighth  velocity=76
+
+=== poem-g-sample-001.mid ===
+tempo_bpm: 120.00
+notes: 37
+
+letter_sequence:
+F#4(sixteenth) C#3(sixteenth) Rest(sixteenth) B4(sixteenth) E4(sixteenth) F#4(eighth) B4(eighth) A4(eighth) F#3(sixteenth) Rest(sixteenth) F#3(eighth) B4(eighth) F#4(eighth) Rest(sixteenth) B4(sixteenth) Rest(sixteenth) E5(sixteenth) Rest(sixteenth) B4(sixteenth) E5(eighth) A4(sixteenth) Rest(sixteenth) E5(sixteenth) Rest(sixteenth) G#4(sixteenth) E4(sixteenth) B4(eighth) E5(sixteenth) D5(sixteenth) A4(sixteenth) Rest(sixteenth) G#4(sixteenth) Rest(sixteenth) B4(sixteenth) Rest(sixteenth) E4(sixteenth) D5(sixteenth) C#4(eighth) B3(eighth) Rest(sixteenth) F#5(eighth) C#5(eighth) B4(sixteenth) F#4(sixteenth) A#4(eighth) E5(dotted-eighth) C#4(sixteenth) E4(sixteenth)
+
+timed_events:
+1:1.000  F#4  dur=sixteenth      velocity=68
+1:1.250  C#3  dur=sixteenth      velocity=68
+1:1.500  Rest  dur=sixteenth
+1:1.750  B4   dur=sixteenth      velocity=68
+1:2.000  E4   dur=sixteenth      velocity=76
+1:2.250  F#4  dur=eighth         velocity=68
+1:2.750  B4   dur=eighth         velocity=44
+1:3.250  A4   dur=eighth         velocity=60
+1:3.750  F#3  dur=sixteenth      velocity=60
+1:4.000  Rest  dur=sixteenth
+1:4.250  F#3  dur=eighth         velocity=68
+1:4.750  B4   dur=eighth         velocity=60
+2:1.250  F#4  dur=eighth         velocity=68
+2:1.750  Rest  dur=sixteenth
+2:2.000  B4   dur=sixteenth      velocity=68
+2:2.250  Rest  dur=sixteenth
+2:2.500  E5   dur=sixteenth      velocity=76
+2:2.750  Rest  dur=sixteenth
+2:3.000  B4   dur=sixteenth      velocity=68
+2:3.250  E5   dur=eighth         velocity=44
+2:3.750  A4   dur=sixteenth      velocity=68
+2:4.000  Rest  dur=sixteenth
+2:4.250  E5   dur=sixteenth      velocity=68
+2:4.500  Rest  dur=sixteenth
+2:4.750  G#4  dur=sixteenth      velocity=68
+3:1.000  E4   dur=sixteenth      velocity=68
+3:1.250  B4   dur=eighth         velocity=68
+3:1.750  E5   dur=sixteenth      velocity=68
+3:2.000  D5   dur=sixteenth      velocity=44
+3:2.250  A4   dur=sixteenth      velocity=68
+3:2.500  Rest  dur=sixteenth
+3:2.750  G#4  dur=sixteenth      velocity=68
+3:3.000  Rest  dur=sixteenth
+3:3.250  B4   dur=sixteenth      velocity=68
+3:3.500  Rest  dur=sixteenth
+3:3.750  E4   dur=sixteenth      velocity=68
+3:4.000  D5   dur=sixteenth      velocity=68
+3:4.250  C#4  dur=eighth         velocity=68
+3:4.750  B3   dur=eighth         velocity=76
+4:1.250  Rest  dur=sixteenth
+4:1.500  F#5  dur=eighth         velocity=68
+4:2.000  C#5  dur=eighth         velocity=68
+4:2.500  B4   dur=sixteenth      velocity=60
+4:2.750  F#4  dur=sixteenth      velocity=76
+4:3.000  A#4  dur=eighth         velocity=68
+4:3.500  E5   dur=dotted-eighth  velocity=68
+4:4.250  C#4  dur=sixteenth      velocity=44
+4:4.500  E4   dur=sixteenth      velocity=60
+
+=== poem-g-sample-002.mid ===
+tempo_bpm: 120.00
+notes: 38
+
+letter_sequence:
+D#4(sixteenth) Rest(dotted-eighth) C5(sixteenth) A#4(sixteenth) Rest(sixteenth) B4(sixteenth) C4(sixteenth) Rest(sixteenth) A4(sixteenth) Rest(sixteenth) C#5(sixteenth) A4(sixteenth) Rest(sixteenth) C5(sixteenth) C2(sixteenth) Rest(sixteenth) G#4(sixteenth) A4(sixteenth) Rest(sixteenth) C6(sixteenth) C5(sixteenth) Rest(sixteenth) A4(sixteenth) C#5(sixteenth) Rest(sixteenth) F4(sixteenth) F#4(sixteenth) Rest(sixteenth) C#4(sixteenth) C#5(sixteenth) Rest(sixteenth) C6(sixteenth) F4(sixteenth) Rest(sixteenth) F4(sixteenth) C#5(sixteenth) Rest(sixteenth) F5(sixteenth) A4(sixteenth) Rest(sixteenth) G5(sixteenth) A#4(sixteenth) Rest(sixteenth) F5(sixteenth) Rest(sixteenth) A5(sixteenth) A#5(sixteenth) Rest(sixteenth) D#4(sixteenth) E5(sixteenth) Rest(sixteenth) C6(sixteenth) C5(sixteenth) Rest(sixteenth) D5(dotted-eighth) A4(sixteenth) Rest(eighth) A#5(dotted-eighth)
+
+timed_events:
+1:1.000  D#4  dur=sixteenth      velocity=76
+1:1.250  Rest  dur=dotted-eighth
+1:2.000  C5   dur=sixteenth      velocity=84
+1:2.250  A#4  dur=sixteenth      velocity=84
+1:2.500  Rest  dur=sixteenth
+1:2.750  B4   dur=sixteenth      velocity=84
+1:3.000  C4   dur=sixteenth      velocity=84
+1:3.250  Rest  dur=sixteenth
+1:3.500  A4   dur=sixteenth      velocity=76
+1:3.750  Rest  dur=sixteenth
+1:4.000  C#5  dur=sixteenth      velocity=76
+1:4.250  A4   dur=sixteenth      velocity=68
+1:4.500  Rest  dur=sixteenth
+1:4.750  C5   dur=sixteenth      velocity=84
+2:1.000  C2   dur=sixteenth      velocity=68
+2:1.250  Rest  dur=sixteenth
+2:1.500  G#4  dur=sixteenth      velocity=76
+2:1.750  A4   dur=sixteenth      velocity=68
+2:2.000  Rest  dur=sixteenth
+2:2.250  C6   dur=sixteenth      velocity=84
+2:2.500  C5   dur=sixteenth      velocity=76
+2:2.750  Rest  dur=sixteenth
+2:3.000  A4   dur=sixteenth      velocity=76
+2:3.250  C#5  dur=sixteenth      velocity=68
+2:3.500  Rest  dur=sixteenth
+2:3.750  F4   dur=sixteenth      velocity=84
+2:4.000  F#4  dur=sixteenth      velocity=76
+2:4.250  Rest  dur=sixteenth
+2:4.500  C#4  dur=sixteenth      velocity=84
+2:4.750  C#5  dur=sixteenth      velocity=68
+3:1.000  Rest  dur=sixteenth
+3:1.250  C6   dur=sixteenth      velocity=76
+3:1.500  F4   dur=sixteenth      velocity=76
+3:1.750  Rest  dur=sixteenth
+3:2.000  F4   dur=sixteenth      velocity=76
+3:2.250  C#5  dur=sixteenth      velocity=68
+3:2.500  Rest  dur=sixteenth
+3:2.750  F5   dur=sixteenth      velocity=76
+3:3.000  A4   dur=sixteenth      velocity=68
+3:3.250  Rest  dur=sixteenth
+3:3.500  G5   dur=sixteenth      velocity=76
+3:3.750  A#4  dur=sixteenth      velocity=76
+3:4.000  Rest  dur=sixteenth
+3:4.250  F5   dur=sixteenth      velocity=76
+3:4.500  Rest  dur=sixteenth
+3:4.750  A5   dur=sixteenth      velocity=76
+4:1.000  A#5  dur=sixteenth      velocity=68
+4:1.250  Rest  dur=sixteenth
+4:1.500  D#4  dur=sixteenth      velocity=84
+4:1.750  E5   dur=sixteenth      velocity=68
+4:2.000  Rest  dur=sixteenth
+4:2.250  C6   dur=sixteenth      velocity=84
+4:2.500  C5   dur=sixteenth      velocity=68
+4:2.750  Rest  dur=sixteenth
+4:3.000  D5   dur=dotted-eighth  velocity=84
+4:3.750  A4   dur=sixteenth      velocity=76
+4:4.000  Rest  dur=eighth
+4:4.500  A#5  dur=dotted-eighth  velocity=68
+
+=== poem-g-sample-003.mid ===
+tempo_bpm: 120.00
+notes: 60
+
+letter_sequence:
+C4(sixteenth) F5(eighth) A#4(eighth) F5(eighth) F5(eighth) D#4(sixteenth) F3(eighth) F5(eighth) C5(sixteenth) D4(sixteenth) A#3(sixteenth) F5(sixteenth) F5(sixteenth) D4(sixteenth) A#5(sixteenth) A#5(eighth) F4(sixteenth) A#5(eighth) F4(dotted-eighth) A#3(sixteenth) Rest(sixteenth) D5(sixteenth) Rest(sixteenth) A3(eighth) A#5(eighth) D5(sixteenth) F5(sixteenth) A#5(sixteenth) F5(sixteenth) Rest(sixteenth) A#5(eighth) A5(dotted-eighth) G#5(eighth) A#4(eighth) F4(sixteenth) G#4(eighth) A#3(sixteenth) A#4(sixteenth) F5(sixteenth) Rest(sixteenth) D5(eighth) F3(sixteenth) Rest(sixteenth) C5(eighth) F3(sixteenth) D5(eighth) F3(sixteenth) Rest(sixteenth) D4(sixteenth) G4(eighth) D4(eighth) F4(sixteenth) D4(eighth) F4(eighth) F4(sixteenth) D4(sixteenth) Rest(sixteenth) E4(eighth) E4(sixteenth) A1(sixteenth) E4(sixteenth) E4(eighth) E4(sixteenth) G4(sixteenth) G1(eighth) E4(eighth) Rest(sixteenth) A1(quarter)
+
+timed_events:
+1:1.000  C4   dur=sixteenth      velocity=76
+1:1.250  F5   dur=eighth         velocity=68
+1:1.750  A#4  dur=eighth         velocity=60
+1:2.250  F5   dur=eighth         velocity=68
+1:2.750  F5   dur=eighth         velocity=68
+1:3.250  D#4  dur=sixteenth      velocity=68
+1:3.500  F3   dur=eighth         velocity=68
+1:4.000  F5   dur=eighth         velocity=76
+1:4.500  C5   dur=sixteenth      velocity=60
+1:4.750  D4   dur=sixteenth      velocity=84
+2:1.000  A#3  dur=sixteenth      velocity=76
+2:1.250  F5   dur=sixteenth      velocity=84
+2:1.500  F5   dur=sixteenth      velocity=76
+2:1.750  D4   dur=sixteenth      velocity=84
+2:2.000  A#5  dur=sixteenth      velocity=76
+2:2.250  A#5  dur=eighth         velocity=76
+2:2.750  F4   dur=sixteenth      velocity=60
+2:3.000  A#5  dur=eighth         velocity=60
+2:3.500  F4   dur=dotted-eighth  velocity=60
+2:4.250  A#3  dur=sixteenth      velocity=44
+2:4.500  Rest  dur=sixteenth
+2:4.750  D5   dur=sixteenth      velocity=92
+3:1.000  Rest  dur=sixteenth
+3:1.250  A3   dur=eighth         velocity=92
+3:1.750  A#5  dur=eighth         velocity=84
+3:2.250  D5   dur=sixteenth      velocity=84
+3:2.500  F5   dur=sixteenth      velocity=76
+3:2.750  A#5  dur=sixteenth      velocity=84
+3:3.000  F5   dur=sixteenth      velocity=84
+3:3.250  Rest  dur=sixteenth
+3:3.500  A#5  dur=eighth         velocity=84
+3:4.000  A5   dur=dotted-eighth  velocity=84
+3:4.750  G#5  dur=eighth         velocity=76
+4:1.250  A#4  dur=eighth         velocity=76
+4:1.750  F4   dur=sixteenth      velocity=76
+4:2.000  G#4  dur=eighth         velocity=76
+4:2.500  A#3  dur=sixteenth      velocity=76
+4:2.750  A#4  dur=sixteenth      velocity=76
+4:3.000  F5   dur=sixteenth      velocity=76
+4:3.250  Rest  dur=sixteenth
+4:3.500  D5   dur=eighth         velocity=76
+4:4.000  F3   dur=sixteenth      velocity=76
+4:4.250  Rest  dur=sixteenth
+4:4.500  C5   dur=eighth         velocity=68
+5:1.000  F3   dur=sixteenth      velocity=60
+5:1.250  D5   dur=eighth         velocity=60
+5:1.750  F3   dur=sixteenth      velocity=60
+5:2.000  Rest  dur=sixteenth
+5:2.250  D4   dur=sixteenth      velocity=60
+5:2.500  G4   dur=eighth         velocity=60
+5:3.000  D4   dur=eighth         velocity=60
+5:3.500  F4   dur=sixteenth      velocity=60
+5:3.750  D4   dur=eighth         velocity=44
+5:4.250  F4   dur=eighth         velocity=60
+5:4.750  F4   dur=sixteenth      velocity=60
+6:1.000  D4   dur=sixteenth      velocity=60
+6:1.250  Rest  dur=sixteenth
+6:1.500  E4   dur=eighth         velocity=68
+6:2.000  E4   dur=sixteenth      velocity=68
+6:2.250  A1   dur=sixteenth      velocity=60
+6:2.500  E4   dur=sixteenth      velocity=68
+6:2.750  E4   dur=eighth         velocity=44
+6:3.250  E4   dur=sixteenth      velocity=68
+6:3.500  G4   dur=sixteenth      velocity=60
+6:3.750  G1   dur=eighth         velocity=68
+6:4.250  E4   dur=eighth         velocity=68
+6:4.750  Rest  dur=sixteenth
+7:1.000  A1   dur=quarter        velocity=68
+
+=== poem-g-sample-004.mid ===
+tempo_bpm: 120.00
+notes: 41
+
+letter_sequence:
+C5(dotted-eighth) Rest(sixteenth) C4(sixteenth) A4(dotted-eighth) C5(dotted-eighth) Rest(sixteenth) A4(sixteenth) C5(dotted-eighth) C5(sixteenth) F4(dotted-eighth) A4(sixteenth) F4(sixteenth) Rest(eighth) A#4(quarter) A#1(sixteenth) D4(dotted-eighth) Rest(sixteenth) G4(quarter) C5(sixteenth) Rest(dotted-eighth) G4(quarter) E3(eighth) Rest(eighth) G4(sixteenth) D#4(dotted-eighth) G4(quarter) A#3(dotted-eighth) Rest(17/4 beats) D#4(sixteenth) Rest(dotted-eighth) C5(dotted-eighth) Rest(eighth) A4(quarter) F4(quarter) F4(eighth) Rest(eighth) A4(sixteenth) Rest(dotted-eighth) A4(quarter) A4(sixteenth) Rest(dotted-eighth) G4(dotted-eighth) Rest(sixteenth) A4(quarter) D#4(quarter) C4(quarter) A4(quarter) G4(sixteenth) D4(dotted-eighth) F4(sixteenth) D4(quarter) G4(eighth) Rest(sixteenth) C4(sixteenth) A4(quarter)
+
+timed_events:
+1:1.000  C5   dur=dotted-eighth  velocity=68
+1:1.750  Rest  dur=sixteenth
+1:2.000  C4   dur=sixteenth      velocity=52
+1:2.250  A4   dur=dotted-eighth  velocity=68
+1:3.000  C5   dur=dotted-eighth  velocity=68
+1:3.750  Rest  dur=sixteenth
+1:4.000  A4   dur=sixteenth      velocity=68
+1:4.250  C5   dur=dotted-eighth  velocity=68
+2:1.000  C5   dur=sixteenth      velocity=60
+2:1.250  F4   dur=dotted-eighth  velocity=68
+2:2.000  A4   dur=sixteenth      velocity=44
+2:2.250  F4   dur=sixteenth      velocity=68
+2:2.500  Rest  dur=eighth
+2:3.000  A#4  dur=quarter        velocity=60
+2:4.000  A#1  dur=sixteenth      velocity=52
+2:4.250  D4   dur=dotted-eighth  velocity=68
+3:1.000  Rest  dur=sixteenth
+3:1.250  G4   dur=quarter        velocity=76
+3:2.250  C5   dur=sixteenth      velocity=68
+3:2.500  Rest  dur=dotted-eighth
+3:3.250  G4   dur=quarter        velocity=68
+3:4.250  E3   dur=eighth         velocity=60
+3:4.750  Rest  dur=eighth
+4:1.250  G4   dur=sixteenth      velocity=68
+4:1.500  D#4  dur=dotted-eighth  velocity=60
+4:2.250  G4   dur=quarter        velocity=60
+4:3.250  A#3  dur=dotted-eighth  velocity=52
+4:4.000  Rest  dur=17/4 beats
+5:4.250  D#4  dur=sixteenth      velocity=60
+5:4.500  Rest  dur=dotted-eighth
+6:1.250  C5   dur=dotted-eighth  velocity=68
+6:2.000  Rest  dur=eighth
+6:2.500  A4   dur=quarter        velocity=68
+6:3.500  F4   dur=quarter        velocity=60
+6:4.500  F4   dur=eighth         velocity=60
+7:1.000  Rest  dur=eighth
+7:1.500  A4   dur=sixteenth      velocity=60
+7:1.750  Rest  dur=dotted-eighth
+7:2.500  A4   dur=quarter        velocity=68
+7:3.500  A4   dur=sixteenth      velocity=52
+7:3.750  Rest  dur=dotted-eighth
+7:4.500  G4   dur=dotted-eighth  velocity=68
+8:1.250  Rest  dur=sixteenth
+8:1.500  A4   dur=quarter        velocity=68
+8:2.500  D#4  dur=quarter        velocity=68
+8:3.500  C4   dur=quarter        velocity=52
+8:4.500  A4   dur=quarter        velocity=52
+9:1.500  G4   dur=sixteenth      velocity=52
+9:1.750  D4   dur=dotted-eighth  velocity=68
+9:2.500  F4   dur=sixteenth      velocity=52
+9:2.750  D4   dur=quarter        velocity=68
+9:3.750  G4   dur=eighth         velocity=44
+9:4.250  Rest  dur=sixteenth
+9:4.500  C4   dur=sixteenth      velocity=52
+9:4.750  A4   dur=quarter        velocity=60
+
+=== poem-h-sample-000.mid ===
+tempo_bpm: 120.00
+notes: 81
+
+letter_sequence:
+B4(eighth) C5(eighth) F#3(eighth) G#3(eighth) B4(eighth) A#3(eighth) D#5(sixteenth) A4(eighth) G4(eighth) D#5(eighth) D5(eighth) F4(eighth) C5(eighth) D5(eighth) C5(eighth) A#4(sixteenth) G#4(sixteenth) E4(sixteenth) G4(sixteenth) Rest(sixteenth) E4(sixteenth) G#3(sixteenth) A#4(dotted-eighth) A#4(sixteenth) C5(eighth) A4(eighth) B4(sixteenth) F#2(sixteenth) A4(sixteenth) C4(sixteenth) E5(sixteenth) C#4(sixteenth) C5(eighth) E5(sixteenth) A2(eighth) C#5(sixteenth) Rest(sixteenth) A4(eighth) D#5(sixteenth) E5(sixteenth) B3(sixteenth) D#4(eighth) G#4(sixteenth) E4(sixteenth) A4(sixteenth) A#4(sixteenth) Rest(sixteenth) E5(eighth) F#3(sixteenth) A#4(sixteenth) B4(eighth) E4(sixteenth) E5(sixteenth) A#3(eighth) E4(sixteenth) F5(eighth) F4(eighth) E5(eighth) G4(sixteenth) F#4(sixteenth) G#4(sixteenth) E4(eighth) E5(sixteenth) Rest(sixteenth) G#4(eighth) E5(eighth) A#4(sixteenth) F#4(eighth) B4(eighth) A#4(sixteenth) C#5(eighth) F#4(sixteenth) A#4(eighth) F#4(eighth) Rest(sixteenth) D#5(eighth) D4(sixteenth) E5(sixteenth) A4(sixteenth) D3(eighth) D5(eighth) F#4(eighth) F3(sixteenth) D4(eighth) D5(eighth) A#3(eighth)
+
+timed_events:
+1:1.000  B4   dur=eighth         velocity=60
+1:1.500  C5   dur=eighth         velocity=60
+1:2.000  F#3  dur=eighth         velocity=68
+1:2.500  G#3  dur=eighth         velocity=60
+1:3.000  B4   dur=eighth         velocity=76
+1:3.500  A#3  dur=eighth         velocity=68
+1:4.000  D#5  dur=sixteenth      velocity=76
+1:4.250  A4   dur=eighth         velocity=68
+1:4.750  G4   dur=eighth         velocity=68
+2:1.250  D#5  dur=eighth         velocity=68
+2:1.750  D5   dur=eighth         velocity=68
+2:2.250  F4   dur=eighth         velocity=76
+2:2.750  C5   dur=eighth         velocity=68
+2:3.250  D5   dur=eighth         velocity=76
+2:3.750  C5   dur=eighth         velocity=68
+2:4.250  A#4  dur=sixteenth      velocity=76
+2:4.500  G#4  dur=sixteenth      velocity=60
+2:4.750  E4   dur=sixteenth      velocity=68
+3:1.000  G4   dur=sixteenth      velocity=68
+3:1.250  Rest  dur=sixteenth
+3:1.500  E4   dur=sixteenth      velocity=68
+3:1.750  G#3  dur=sixteenth      velocity=68
+3:2.000  A#4  dur=dotted-eighth  velocity=68
+3:2.750  A#4  dur=sixteenth      velocity=60
+3:3.000  C5   dur=eighth         velocity=68
+3:3.500  A4   dur=eighth         velocity=68
+3:4.000  B4   dur=sixteenth      velocity=76
+3:4.250  F#2  dur=sixteenth      velocity=60
+3:4.500  A4   dur=sixteenth      velocity=76
+3:4.750  C4   dur=sixteenth      velocity=60
+4:1.000  E5   dur=sixteenth      velocity=76
+4:1.250  C#4  dur=sixteenth      velocity=76
+4:1.500  C5   dur=eighth         velocity=76
+4:2.000  E5   dur=sixteenth      velocity=76
+4:2.250  A2   dur=eighth         velocity=60
+4:2.750  C#5  dur=sixteenth      velocity=68
+4:3.000  Rest  dur=sixteenth
+4:3.250  A4   dur=eighth         velocity=68
+4:3.750  D#5  dur=sixteenth      velocity=68
+4:4.000  E5   dur=sixteenth      velocity=68
+4:4.250  B3   dur=sixteenth      velocity=60
+4:4.500  D#4  dur=eighth         velocity=68
+5:1.000  G#4  dur=sixteenth      velocity=68
+5:1.250  E4   dur=sixteenth      velocity=68
+5:1.500  A4   dur=sixteenth      velocity=76
+5:1.750  A#4  dur=sixteenth      velocity=60
+5:2.000  Rest  dur=sixteenth
+5:2.250  E5   dur=eighth         velocity=76
+5:2.750  F#3  dur=sixteenth      velocity=60
+5:3.000  A#4  dur=sixteenth      velocity=68
+5:3.250  B4   dur=eighth         velocity=68
+5:3.750  E4   dur=sixteenth      velocity=68
+5:4.000  E5   dur=sixteenth      velocity=76
+5:4.250  A#3  dur=eighth         velocity=68
+5:4.750  E4   dur=sixteenth      velocity=76
+6:1.000  F5   dur=eighth         velocity=68
+6:1.500  F4   dur=eighth         velocity=68
+6:2.000  E5   dur=eighth         velocity=76
+6:2.500  G4   dur=sixteenth      velocity=68
+6:2.750  F#4  dur=sixteenth      velocity=68
+6:3.000  G#4  dur=sixteenth      velocity=76
+6:3.250  E4   dur=eighth         velocity=68
+6:3.750  E5   dur=sixteenth      velocity=76
+6:4.000  Rest  dur=sixteenth
+6:4.250  G#4  dur=eighth         velocity=68
+6:4.750  E5   dur=eighth         velocity=60
+7:1.250  A#4  dur=sixteenth      velocity=68
+7:1.500  F#4  dur=eighth         velocity=60
+7:2.000  B4   dur=eighth         velocity=68
+7:2.500  A#4  dur=sixteenth      velocity=60
+7:2.750  C#5  dur=eighth         velocity=76
+7:3.250  F#4  dur=sixteenth      velocity=68
+7:3.500  A#4  dur=eighth         velocity=76
+7:4.000  F#4  dur=eighth         velocity=68
+7:4.500  Rest  dur=sixteenth
+7:4.750  D#5  dur=eighth         velocity=76
+8:1.250  D4   dur=sixteenth      velocity=68
+8:1.500  E5   dur=sixteenth      velocity=60
+8:1.750  A4   dur=sixteenth      velocity=76
+8:2.000  D3   dur=eighth         velocity=60
+8:2.500  D5   dur=eighth         velocity=76
+8:3.000  F#4  dur=eighth         velocity=60
+8:3.500  F3   dur=sixteenth      velocity=76
+8:3.750  D4   dur=eighth         velocity=60
+8:4.250  D5   dur=eighth         velocity=76
+8:4.750  A#3  dur=eighth         velocity=68
+
+=== poem-h-sample-001.mid ===
+tempo_bpm: 120.00
+notes: 54
+
+letter_sequence:
+A#3(sixteenth) Rest(dotted-eighth) D#5(sixteenth) Rest(dotted-eighth) G#3(sixteenth) Rest(dotted-eighth) D#5(sixteenth) Rest(dotted-eighth) C4(sixteenth) Rest(dotted-eighth) B4(sixteenth) Rest(dotted-eighth) C5(sixteenth) Rest(dotted-eighth) A#4(sixteenth) Rest(dotted-eighth) A#4(sixteenth) Rest(dotted-eighth) A#4(sixteenth) Rest(dotted-eighth) F5(quarter) A#1(sixteenth) Rest(dotted-eighth) D#5(sixteenth) Rest(dotted-eighth) C#6(sixteenth) Rest(dotted-eighth) G#4(sixteenth) Rest(dotted-eighth) C#5(sixteenth) Rest(dotted-eighth) G#4(sixteenth) Rest(dotted-eighth) G#4(sixteenth) Rest(dotted-eighth) C#5(sixteenth) Rest(dotted-eighth) C#5(sixteenth) Rest(dotted-eighth) G#4(sixteenth) Rest(dotted-eighth) G#4(sixteenth) Rest(dotted-eighth) G#4(sixteenth) Rest(dotted-eighth) D#5(sixteenth) Rest(dotted-eighth) C5(sixteenth) Rest(dotted-eighth) A#4(sixteenth) Rest(dotted-eighth) C#5(sixteenth) Rest(dotted-eighth) D#5(sixteenth) Rest(dotted-eighth) C#5(sixteenth) Rest(eighth) A#4(sixteenth) Rest(dotted-eighth) C#5(sixteenth) Rest(sixteenth) A#4(sixteenth) Rest(sixteenth) A#4(sixteenth) F#7(sixteenth) Rest(sixteenth) D#5(sixteenth) Rest(sixteenth) C#5(sixteenth) Rest(sixteenth) A#4(sixteenth) Rest(sixteenth) C#5(sixteenth) Rest(dotted-eighth) F5(sixteenth) Rest(sixteenth) F#5(sixteenth) Rest(sixteenth) G5(sixteenth) Rest(sixteenth) A#5(sixteenth) Rest(sixteenth) B5(sixteenth) Rest(sixteenth) A#5(sixteenth) Rest(sixteenth) C#5(sixteenth) Rest(sixteenth) F5(sixteenth) Rest(sixteenth) E5(sixteenth) Rest(sixteenth) F5(sixteenth) Rest(sixteenth) F#5(sixteenth) Rest(sixteenth) G5(sixteenth) Rest(sixteenth) G6(sixteenth) Rest(sixteenth) C#5(sixteenth) Rest(sixteenth) F5(sixteenth) Rest(sixteenth) F#5(sixteenth)
+
+timed_events:
+1:1.000  A#3  dur=sixteenth      velocity=60
+1:1.250  Rest  dur=dotted-eighth
+1:2.000  D#5  dur=sixteenth      velocity=68
+1:2.250  Rest  dur=dotted-eighth
+1:3.000  G#3  dur=sixteenth      velocity=76
+1:3.250  Rest  dur=dotted-eighth
+1:4.000  D#5  dur=sixteenth      velocity=76
+1:4.250  Rest  dur=dotted-eighth
+2:1.000  C4   dur=sixteenth      velocity=76
+2:1.250  Rest  dur=dotted-eighth
+2:2.000  B4   dur=sixteenth      velocity=76
+2:2.250  Rest  dur=dotted-eighth
+2:3.000  C5   dur=sixteenth      velocity=76
+2:3.250  Rest  dur=dotted-eighth
+2:4.000  A#4  dur=sixteenth      velocity=76
+2:4.250  Rest  dur=dotted-eighth
+3:1.000  A#4  dur=sixteenth      velocity=68
+3:1.250  Rest  dur=dotted-eighth
+3:2.000  A#4  dur=sixteenth      velocity=68
+3:2.250  Rest  dur=dotted-eighth
+3:3.000  F5   dur=quarter        velocity=68
+3:4.000  A#1  dur=sixteenth      velocity=76
+3:4.250  Rest  dur=dotted-eighth
+4:1.000  D#5  dur=sixteenth      velocity=76
+4:1.250  Rest  dur=dotted-eighth
+4:2.000  C#6  dur=sixteenth      velocity=68
+4:2.250  Rest  dur=dotted-eighth
+4:3.000  G#4  dur=sixteenth      velocity=76
+4:3.250  Rest  dur=dotted-eighth
+4:4.000  C#5  dur=sixteenth      velocity=68
+4:4.250  Rest  dur=dotted-eighth
+5:1.000  G#4  dur=sixteenth      velocity=68
+5:1.250  Rest  dur=dotted-eighth
+5:2.000  G#4  dur=sixteenth      velocity=68
+5:2.250  Rest  dur=dotted-eighth
+5:3.000  C#5  dur=sixteenth      velocity=76
+5:3.250  Rest  dur=dotted-eighth
+5:4.000  C#5  dur=sixteenth      velocity=68
+5:4.250  Rest  dur=dotted-eighth
+6:1.000  G#4  dur=sixteenth      velocity=68
+6:1.250  Rest  dur=dotted-eighth
+6:2.000  G#4  dur=sixteenth      velocity=68
+6:2.250  Rest  dur=dotted-eighth
+6:3.000  G#4  dur=sixteenth      velocity=76
+6:3.250  Rest  dur=dotted-eighth
+6:4.000  D#5  dur=sixteenth      velocity=76
+6:4.250  Rest  dur=dotted-eighth
+7:1.000  C5   dur=sixteenth      velocity=76
+7:1.250  Rest  dur=dotted-eighth
+7:2.000  A#4  dur=sixteenth      velocity=68
+7:2.250  Rest  dur=dotted-eighth
+7:3.000  C#5  dur=sixteenth      velocity=68
+7:3.250  Rest  dur=dotted-eighth
+7:4.000  D#5  dur=sixteenth      velocity=76
+7:4.250  Rest  dur=dotted-eighth
+8:1.000  C#5  dur=sixteenth      velocity=76
+8:1.250  Rest  dur=eighth
+8:1.750  A#4  dur=sixteenth      velocity=68
+8:2.000  Rest  dur=dotted-eighth
+8:2.750  C#5  dur=sixteenth      velocity=76
+8:3.000  Rest  dur=sixteenth
+8:3.250  A#4  dur=sixteenth      velocity=76
+8:3.500  Rest  dur=sixteenth
+8:3.750  A#4  dur=sixteenth      velocity=76
+8:4.000  F#7  dur=sixteenth      velocity=76
+8:4.250  Rest  dur=sixteenth
+8:4.500  D#5  dur=sixteenth      velocity=76
+8:4.750  Rest  dur=sixteenth
+9:1.000  C#5  dur=sixteenth      velocity=76
+9:1.250  Rest  dur=sixteenth
+9:1.500  A#4  dur=sixteenth      velocity=76
+9:1.750  Rest  dur=sixteenth
+9:2.000  C#5  dur=sixteenth      velocity=76
+9:2.250  Rest  dur=dotted-eighth
+9:3.000  F5   dur=sixteenth      velocity=76
+9:3.250  Rest  dur=sixteenth
+9:3.500  F#5  dur=sixteenth      velocity=76
+9:3.750  Rest  dur=sixteenth
+9:4.000  G5   dur=sixteenth      velocity=76
+9:4.250  Rest  dur=sixteenth
+9:4.500  A#5  dur=sixteenth      velocity=84
+9:4.750  Rest  dur=sixteenth
+10:1.000  B5   dur=sixteenth      velocity=76
+10:1.250  Rest  dur=sixteenth
+10:1.500  A#5  dur=sixteenth      velocity=76
+10:1.750  Rest  dur=sixteenth
+10:2.000  C#5  dur=sixteenth      velocity=76
+10:2.250  Rest  dur=sixteenth
+10:2.500  F5   dur=sixteenth      velocity=76
+10:2.750  Rest  dur=sixteenth
+10:3.000  E5   dur=sixteenth      velocity=76
+10:3.250  Rest  dur=sixteenth
+10:3.500  F5   dur=sixteenth      velocity=76
+10:3.750  Rest  dur=sixteenth
+10:4.000  F#5  dur=sixteenth      velocity=84
+10:4.250  Rest  dur=sixteenth
+10:4.500  G5   dur=sixteenth      velocity=76
+10:4.750  Rest  dur=sixteenth
+11:1.000  G6   dur=sixteenth      velocity=76
+11:1.250  Rest  dur=sixteenth
+11:1.500  C#5  dur=sixteenth      velocity=76
+11:1.750  Rest  dur=sixteenth
+11:2.000  F5   dur=sixteenth      velocity=76
+11:2.250  Rest  dur=sixteenth
+11:2.500  F#5  dur=sixteenth      velocity=76
+
+=== poem-h-sample-002.mid ===
+tempo_bpm: 120.00
+notes: 54
+
+letter_sequence:
+C#4(eighth) F#2(eighth) E3(dotted-eighth) A4(eighth) G#4(eighth) A4(eighth) F#2(dotted-eighth) F#4(eighth) F#2(eighth) F#4(quarter) G#4(sixteenth) C#4(eighth) F#4(eighth) A4(eighth) F#4(dotted-eighth) F#4(eighth) F#4(eighth) A4(eighth) F#4(eighth) D4(quarter) B4(eighth) A4(eighth) G#4(eighth) A4(quarter) Rest(sixteenth) B4(eighth) A4(eighth) G#4(eighth) F#4(eighth) G#3(eighth) F#4(eighth) F#4(eighth) A4(sixteenth) F#4(quarter) E4(eighth) E4(eighth) C#4(eighth) F#4(eighth) B3(sixteenth) G#3(sixteenth) C#4(eighth) F4(sixteenth) E4(eighth) A3(eighth) B3(eighth) B3(eighth) C#4(eighth) G#3(eighth) C#5(eighth) F#3(sixteenth) B3(sixteenth) G#4(sixteenth) F#4(sixteenth) A3(sixteenth) Rest(eighth) C#4(17/4 beats)
+
+timed_events:
+1:1.000  C#4  dur=eighth         velocity=60
+1:1.500  F#2  dur=eighth         velocity=44
+1:2.000  E3   dur=dotted-eighth  velocity=68
+1:2.750  A4   dur=eighth         velocity=68
+1:3.250  G#4  dur=eighth         velocity=68
+1:3.750  A4   dur=eighth         velocity=60
+1:4.250  F#2  dur=dotted-eighth  velocity=68
+2:1.000  F#4  dur=eighth         velocity=68
+2:1.500  F#2  dur=eighth         velocity=68
+2:2.000  F#4  dur=quarter        velocity=68
+2:3.000  G#4  dur=sixteenth      velocity=68
+2:3.250  C#4  dur=eighth         velocity=68
+2:3.750  F#4  dur=eighth         velocity=68
+2:4.250  A4   dur=eighth         velocity=68
+2:4.750  F#4  dur=dotted-eighth  velocity=68
+3:1.500  F#4  dur=eighth         velocity=68
+3:2.000  F#4  dur=eighth         velocity=68
+3:2.500  A4   dur=eighth         velocity=68
+3:3.000  F#4  dur=eighth         velocity=68
+3:3.500  D4   dur=quarter        velocity=68
+3:4.500  B4   dur=eighth         velocity=68
+4:1.000  A4   dur=eighth         velocity=68
+4:1.500  G#4  dur=eighth         velocity=68
+4:2.000  A4   dur=quarter        velocity=68
+4:3.000  Rest  dur=sixteenth
+4:3.250  B4   dur=eighth         velocity=68
+4:3.750  A4   dur=eighth         velocity=68
+4:4.250  G#4  dur=eighth         velocity=68
+4:4.750  F#4  dur=eighth         velocity=68
+5:1.250  G#3  dur=eighth         velocity=68
+5:1.750  F#4  dur=eighth         velocity=68
+5:2.250  F#4  dur=eighth         velocity=68
+5:2.750  A4   dur=sixteenth      velocity=68
+5:3.000  F#4  dur=quarter        velocity=68
+5:4.000  E4   dur=eighth         velocity=68
+5:4.500  E4   dur=eighth         velocity=44
+6:1.000  C#4  dur=eighth         velocity=60
+6:1.500  F#4  dur=eighth         velocity=60
+6:2.000  B3   dur=sixteenth      velocity=60
+6:2.250  G#3  dur=sixteenth      velocity=44
+6:2.500  C#4  dur=eighth         velocity=68
+6:3.000  F4   dur=sixteenth      velocity=60
+6:3.250  E4   dur=eighth         velocity=68
+6:3.750  A3   dur=eighth         velocity=60
+6:4.250  B3   dur=eighth         velocity=68
+6:4.750  B3   dur=eighth         velocity=60
+7:1.250  C#4  dur=eighth         velocity=68
+7:1.750  G#3  dur=eighth         velocity=68
+7:2.250  C#5  dur=eighth         velocity=68
+7:2.750  F#3  dur=sixteenth      velocity=68
+7:3.000  B3   dur=sixteenth      velocity=44
+7:3.250  G#4  dur=sixteenth      velocity=68
+7:3.500  F#4  dur=sixteenth      velocity=68
+7:3.750  A3   dur=sixteenth      velocity=60
+7:4.000  Rest  dur=eighth
+7:4.500  C#4  dur=17/4 beats     velocity=68
+
+=== poem-h-sample-003.mid ===
+tempo_bpm: 120.00
+notes: 36
+
+letter_sequence:
+A#4(sixteenth) Rest(quarter) F5(sixteenth) Rest(sixteenth) C5(sixteenth) Rest(sixteenth) C6(sixteenth) G#5(sixteenth) Rest(dotted-eighth) F5(sixteenth) A5(sixteenth) D#5(eighth) F5(sixteenth) A4(sixteenth) Rest(dotted-eighth) A5(sixteenth) A4(sixteenth) A#4(eighth) D#4(sixteenth) G4(sixteenth) A#5(sixteenth) Rest(dotted-eighth) A#4(sixteenth) D#2(sixteenth) G#4(sixteenth) A#5(eighth) C5(sixteenth) F5(sixteenth) Rest(eighth) B5(sixteenth) F4(sixteenth) Rest(eighth) A#4(sixteenth) F5(sixteenth) D#5(sixteenth) Rest(sixteenth) A#4(sixteenth) F#2(sixteenth) F5(sixteenth) Rest(dotted-eighth) F#5(sixteenth) F#5(sixteenth) D#5(sixteenth) B4(sixteenth) A#4(sixteenth) B4(quarter)
+
+timed_events:
+1:1.000  A#4  dur=sixteenth      velocity=84
+1:1.250  Rest  dur=quarter
+1:2.250  F5   dur=sixteenth      velocity=68
+1:2.500  Rest  dur=sixteenth
+1:2.750  C5   dur=sixteenth      velocity=44
+1:3.000  Rest  dur=sixteenth
+1:3.250  C6   dur=sixteenth      velocity=44
+1:3.500  G#5  dur=sixteenth      velocity=84
+1:3.750  Rest  dur=dotted-eighth
+1:4.500  F5   dur=sixteenth      velocity=84
+1:4.750  A5   dur=sixteenth      velocity=44
+2:1.000  D#5  dur=eighth         velocity=44
+2:1.500  F5   dur=sixteenth      velocity=76
+2:1.750  A4   dur=sixteenth      velocity=76
+2:2.000  Rest  dur=dotted-eighth
+2:2.750  A5   dur=sixteenth      velocity=68
+2:3.000  A4   dur=sixteenth      velocity=44
+2:3.250  A#4  dur=eighth         velocity=84
+2:3.750  D#4  dur=sixteenth      velocity=68
+2:4.000  G4   dur=sixteenth      velocity=60
+2:4.250  A#5  dur=sixteenth      velocity=76
+2:4.500  Rest  dur=dotted-eighth
+3:1.250  A#4  dur=sixteenth      velocity=76
+3:1.500  D#2  dur=sixteenth      velocity=84
+3:1.750  G#4  dur=sixteenth      velocity=44
+3:2.000  A#5  dur=eighth         velocity=84
+3:2.500  C5   dur=sixteenth      velocity=68
+3:2.750  F5   dur=sixteenth      velocity=76
+3:3.000  Rest  dur=eighth
+3:3.500  B5   dur=sixteenth      velocity=76
+3:3.750  F4   dur=sixteenth      velocity=68
+3:4.000  Rest  dur=eighth
+3:4.500  A#4  dur=sixteenth      velocity=76
+3:4.750  F5   dur=sixteenth      velocity=76
+4:1.000  D#5  dur=sixteenth      velocity=68
+4:1.250  Rest  dur=sixteenth
+4:1.500  A#4  dur=sixteenth      velocity=76
+4:1.750  F#2  dur=sixteenth      velocity=76
+4:2.000  F5   dur=sixteenth      velocity=76
+4:2.250  Rest  dur=dotted-eighth
+4:3.000  F#5  dur=sixteenth      velocity=76
+4:3.250  F#5  dur=sixteenth      velocity=44
+4:3.500  D#5  dur=sixteenth      velocity=76
+4:3.750  B4   dur=sixteenth      velocity=76
+4:4.000  A#4  dur=sixteenth      velocity=76
+4:4.250  B4   dur=quarter        velocity=68
+
+=== poem-h-sample-004.mid ===
+tempo_bpm: 120.00
+notes: 52
+
+letter_sequence:
+B3(sixteenth) Rest(dotted-eighth) A5(quarter) F#5(dotted-eighth) D5(eighth) F#4(eighth) Rest(sixteenth) A5(sixteenth) A3(sixteenth) Rest(sixteenth) C4(sixteenth) C6(9/4 beats) Rest(15/4 beats) C6(sixteenth) Rest(dotted-eighth) C6(sixteenth) C4(eighth) G4(eighth) C5(eighth) A1(eighth) Rest(sixteenth) C5(eighth) A4(eighth) C5(eighth) G4(eighth) C5(eighth) G4(eighth) C5(sixteenth) Rest(sixteenth) C5(sixteenth) G4(sixteenth) Rest(sixteenth) C5(sixteenth) Rest(sixteenth) C5(eighth) C5(eighth) C6(eighth) F5(eighth) A4(eighth) C5(sixteenth) Rest(sixteenth) A4(sixteenth) Rest(eighth) C5(sixteenth) Rest(sixteenth) D5(sixteenth) Rest(sixteenth) D5(sixteenth) Rest(sixteenth) D5(eighth) Rest(sixteenth) D5(eighth) C#5(eighth) A#4(eighth) D5(eighth) D5(eighth) G4(eighth) C5(eighth) G4(eighth) C5(eighth) C5(sixteenth) Rest(sixteenth) C5(sixteenth) Rest(sixteenth) C5(sixteenth) Rest(sixteenth) C5(sixteenth) Rest(sixteenth) C5(eighth) C5(eighth) A#4(sixteenth)
+
+timed_events:
+1:1.000  B3   dur=sixteenth      velocity=84
+1:1.250  Rest  dur=dotted-eighth
+1:2.000  A5   dur=quarter        velocity=84
+1:3.000  F#5  dur=dotted-eighth  velocity=76
+1:3.750  D5   dur=eighth         velocity=60
+1:4.250  F#4  dur=eighth         velocity=84
+1:4.750  Rest  dur=sixteenth
+2:1.000  A5   dur=sixteenth      velocity=84
+2:1.250  A3   dur=sixteenth      velocity=84
+2:1.500  Rest  dur=sixteenth
+2:1.750  C4   dur=sixteenth      velocity=84
+2:2.000  C6   dur=9/4 beats      velocity=92
+2:4.250  Rest  dur=15/4 beats
+3:4.000  C6   dur=sixteenth      velocity=76
+3:4.250  Rest  dur=dotted-eighth
+4:1.000  C6   dur=sixteenth      velocity=44
+4:1.250  C4   dur=eighth         velocity=76
+4:1.750  G4   dur=eighth         velocity=68
+4:2.250  C5   dur=eighth         velocity=76
+4:2.750  A1   dur=eighth         velocity=68
+4:3.250  Rest  dur=sixteenth
+4:3.500  C5   dur=eighth         velocity=76
+4:4.000  A4   dur=eighth         velocity=60
+4:4.500  C5   dur=eighth         velocity=76
+5:1.000  G4   dur=eighth         velocity=68
+5:1.500  C5   dur=eighth         velocity=76
+5:2.000  G4   dur=eighth         velocity=68
+5:2.500  C5   dur=sixteenth      velocity=76
+5:2.750  Rest  dur=sixteenth
+5:3.000  C5   dur=sixteenth      velocity=76
+5:3.250  G4   dur=sixteenth      velocity=68
+5:3.500  Rest  dur=sixteenth
+5:3.750  C5   dur=sixteenth      velocity=76
+5:4.000  Rest  dur=sixteenth
+5:4.250  C5   dur=eighth         velocity=76
+5:4.750  C5   dur=eighth         velocity=76
+6:1.250  C6   dur=eighth         velocity=68
+6:1.750  F5   dur=eighth         velocity=76
+6:2.250  A4   dur=eighth         velocity=68
+6:2.750  C5   dur=sixteenth      velocity=76
+6:3.000  Rest  dur=sixteenth
+6:3.250  A4   dur=sixteenth      velocity=76
+6:3.500  Rest  dur=eighth
+6:4.000  C5   dur=sixteenth      velocity=76
+6:4.250  Rest  dur=sixteenth
+6:4.500  D5   dur=sixteenth      velocity=76
+6:4.750  Rest  dur=sixteenth
+7:1.000  D5   dur=sixteenth      velocity=76
+7:1.250  Rest  dur=sixteenth
+7:1.500  D5   dur=eighth         velocity=68
+7:2.000  Rest  dur=sixteenth
+7:2.250  D5   dur=eighth         velocity=76
+7:2.750  C#5  dur=eighth         velocity=76
+7:3.250  A#4  dur=eighth         velocity=68
+7:3.750  D5   dur=eighth         velocity=68
+7:4.250  D5   dur=eighth         velocity=60
+7:4.750  G4   dur=eighth         velocity=76
+8:1.250  C5   dur=eighth         velocity=68
+8:1.750  G4   dur=eighth         velocity=76
+8:2.250  C5   dur=eighth         velocity=76
+8:2.750  C5   dur=sixteenth      velocity=68
+8:3.000  Rest  dur=sixteenth
+8:3.250  C5   dur=sixteenth      velocity=76
+8:3.500  Rest  dur=sixteenth
+8:3.750  C5   dur=sixteenth      velocity=76
+8:4.000  Rest  dur=sixteenth
+8:4.250  C5   dur=sixteenth      velocity=76
+8:4.500  Rest  dur=sixteenth
+8:4.750  C5   dur=eighth         velocity=76
+9:1.250  C5   dur=eighth         velocity=76
+9:1.750  A#4  dur=sixteenth      velocity=68
