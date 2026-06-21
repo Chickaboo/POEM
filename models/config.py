@@ -37,6 +37,8 @@ class POEMConfig:
     hrm_l_cycles: int = 3
     hrm_bp_steps: int = 5
     hrm_half_layers: bool = True
+    mtp_horizon: int = 4
+    mtp_aux_weight: float = 0.3
 
     @property
     def ffn_hidden_dim(self) -> int:
@@ -129,6 +131,15 @@ class PoemBackboneG(POEMConfig):
 
 
 @dataclass
+class PoemBackboneGMTP(PoemBackboneG):
+    model_type: str = "G_MTP"
+    mtp_horizon: int = 4
+    # 0.3 keeps each auxiliary offset clearly secondary to the primary next-token
+    # objective while still providing visible short-horizon training signal.
+    mtp_aux_weight: float = 0.3
+
+
+@dataclass
 class PoemBackboneH(POEMConfig):
     model_type: str = "H"
     d_model: int = 384
@@ -153,10 +164,11 @@ def config_for_model_type(model_type: str, smoke_test: bool = False) -> POEMConf
         "E": PoemBackboneE,
         "F": PoemBackboneF,
         "G": PoemBackboneG,
+        "G_MTP": PoemBackboneGMTP,
         "H": PoemBackboneH,
     }.get(normalized)
     if config_cls is None:
-        raise ValueError(f"Unknown model_type {model_type!r}; expected A, B, C, D, E, F, G, or H")
+        raise ValueError(f"Unknown model_type {model_type!r}; expected A, B, C, D, E, F, G, G_MTP, or H")
     config = config_cls()
     if smoke_test:
         config.d_model = 64
@@ -167,7 +179,7 @@ def config_for_model_type(model_type: str, smoke_test: bool = False) -> POEMConf
         config.max_seq_len = 160
         config.max_loops = 2
         config.halt_threshold = 0.5
-        if normalized == "G":
+        if normalized in {"G", "G_MTP"}:
             config.n_layers = 2
         if normalized == "H":
             config.n_layers = 2

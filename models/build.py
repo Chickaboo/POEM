@@ -11,6 +11,7 @@ from models.backbone_d import PoemAbsoluteTransformer
 from models.backbone_e import PoemGDNAblation
 from models.backbone_f import PoemHybridRecursive
 from models.backbone_g import PoemDenseRoPETransformer
+from models.backbone_g_mtp import PoemDenseRoPETransformerMTP
 from models.backbone_h import PoemHRMDenseRoPE
 from models.config import POEMConfig, config_for_model_type
 
@@ -35,6 +36,8 @@ def build_model(config: POEMConfig | None = None, model_type: str | None = None,
         return PoemHybridRecursive(config)
     if normalized == "G":
         return PoemDenseRoPETransformer(config)
+    if normalized == "G_MTP":
+        return PoemDenseRoPETransformerMTP(config)
     if normalized == "H":
         return PoemHRMDenseRoPE(config)
     raise NotImplementedError(f"Candidate {normalized} has not been wired yet")

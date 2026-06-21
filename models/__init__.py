@@ -10,6 +10,7 @@ from models.config import (
     PoemBackboneE,
     PoemBackboneF,
     PoemBackboneG,
+    PoemBackboneGMTP,
     PoemBackboneH,
 )
 
@@ -22,6 +23,7 @@ __all__ = [
     "PoemBackboneE",
     "PoemBackboneF",
     "PoemBackboneG",
+    "PoemBackboneGMTP",
     "PoemBackboneH",
     "build_model",
 ]

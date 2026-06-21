@@ -32,6 +32,7 @@ DEFAULT_BATCH_BY_MODEL = {
     "E": 256,
     "F": 128,
     "G": 64,
+    "G_MTP": 64,
     "H": 64,
 }
 
@@ -54,6 +55,7 @@ def batch_size_for_model(args: argparse.Namespace, model_type: str) -> int:
         "E": args.batch_size_e,
         "F": args.batch_size_f,
         "G": args.batch_size_g,
+        "G_MTP": args.batch_size_g_mtp,
         "H": args.batch_size_h,
     }
     override = overrides.get(model_type)
@@ -164,6 +166,7 @@ def main() -> None:
     parser.add_argument("--batch_size_e", type=int, default=256)
     parser.add_argument("--batch_size_f", type=int, default=128)
     parser.add_argument("--batch_size_g", type=int, default=64)
+    parser.add_argument("--batch_size_g_mtp", type=int, default=None)
     parser.add_argument("--batch_size_h", type=int, default=64)
     parser.add_argument("--batch_size_f_single_gpu", type=int, default=64)
     parser.add_argument("--variants", nargs="+", default=MODEL_ORDER)
@@ -179,6 +182,8 @@ def main() -> None:
     parser.add_argument("--pretokenize_workers", type=int, default=8)
     parser.add_argument("--max_hours", type=float, default=11.75)
     parser.add_argument("--samples_per_model", type=int, default=5)
+    parser.add_argument("--mtp_horizon", type=int, default=4)
+    parser.add_argument("--mtp_aux_weight", type=float, default=0.3)
     parser.add_argument("--private", action="store_true")
     args = parser.parse_args()
 
@@ -273,6 +278,9 @@ def main() -> None:
         ]
         if model_type.upper() == "F":
             train_command.append("--require_flash_gdn")
+        if model_type.upper() == "G_MTP":
+            train_command.extend(["--mtp_horizon", str(args.mtp_horizon)])
+            train_command.extend(["--mtp_aux_weight", str(args.mtp_aux_weight)])
         run(train_command, args.repo_dir)
 
         model_name = f"poem-{model_type.lower()}"

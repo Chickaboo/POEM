@@ -12,6 +12,35 @@ from models.config import config_from_dict
 from tokenizer.tokens_to_midi import tokens_to_midi
 
 
+def describe_generation_model(model, config) -> None:
+    model_type = str(config.model_type).upper()
+    if model_type == "G":
+        print(
+            "Generation model: Candidate G dense RoPE "
+            f"(layers={config.n_layers}, d_model={config.d_model}, heads={config.n_heads})",
+            flush=True,
+        )
+        return
+    if model_type == "G_MTP":
+        print(
+            "Generation model: Candidate G-MTP dense RoPE "
+            f"(layers={config.n_layers}, d_model={config.d_model}, heads={config.n_heads}, "
+            f"mtp_horizon={config.mtp_horizon}; using primary head only)",
+            flush=True,
+        )
+        return
+    if model_type == "H":
+        layers_per_level = len(model.h_level.core.layers)
+        print(
+            "Generation model: Candidate H HRM dense RoPE "
+            f"(H_cycles={config.hrm_h_cycles}, L_cycles={config.hrm_l_cycles}, "
+            f"layers_per_level={layers_per_level}, d_model={config.d_model}, heads={config.n_heads})",
+            flush=True,
+        )
+        return
+    print(f"Generation model: Candidate {model_type}", flush=True)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checkpoint", required=True, type=Path)
@@ -46,6 +75,7 @@ def main() -> None:
     if args.fla_mode != "checkpoint" and hasattr(config, "hybrid_fla_mode"):
         config.hybrid_fla_mode = args.fla_mode
     model = build_model(config)
+    describe_generation_model(model, config)
     status_fn = getattr(model, "hybrid_gdn_status", None)
     if callable(status_fn):
         print(f"Hybrid GDN status: {status_fn()}", flush=True)

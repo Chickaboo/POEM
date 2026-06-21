@@ -190,7 +190,12 @@ def evaluate(
                 output = model(batch[:, :-1], batch[:, 1:])
             if output.loss is not None:
                 loss_tensor = output.loss.mean() if output.loss.ndim > 0 else output.loss
-                losses.append(float(loss_tensor.detach()))
+                metrics = output.metrics or {}
+                primary_loss = metric_to_float(metrics.get("mtp_primary_loss"))
+                losses.append(primary_loss if primary_loss is not None else float(loss_tensor.detach()))
+                for key, value in metrics.items():
+                    if key.startswith("mtp_") and key.endswith("_loss"):
+                        breakdown_totals[key] = breakdown_totals.get(key, 0.0) + float(metric_to_float(value) or 0.0)
                 breakdown = fielded_loss_breakdown(output.logits, batch[:, 1:])
                 for key, value in breakdown.items():
                     breakdown_totals[key] = breakdown_totals.get(key, 0.0) + float(value)
@@ -234,6 +239,9 @@ def train(args: argparse.Namespace) -> None:
     use_amp = bool(args.amp and device.type == "cuda")
     amp_dtype = torch.float16 if args.amp_dtype == "float16" else torch.bfloat16
     config = config_for_model_type(args.model_type, smoke_test=args.smoke_test)
+    if str(config.model_type).upper() == "G_MTP":
+        config.mtp_horizon = args.mtp_horizon
+        config.mtp_aux_weight = args.mtp_aux_weight
     if hasattr(config, "require_flash_gdn"):
         config.require_flash_gdn = bool(args.require_flash_gdn)
     if args.require_flash_gdn and hasattr(config, "use_flash_gdn"):
@@ -264,6 +272,13 @@ def train(args: argparse.Namespace) -> None:
     train_files, val_files = split_files(files, val_fraction=args.val_fraction, seed=args.seed, smoke_test=args.smoke_test)
     token_cache = load_token_cache(args.token_cache if args.token_cache.exists() else None)
     print(f"POEM candidate {config.model_type}: {param_count:,} trainable parameters", flush=True)
+    if str(config.model_type).upper() == "G_MTP":
+        g_param_count = count_parameters(build_model(config_for_model_type("G", smoke_test=args.smoke_test)))
+        print(
+            f"G-MTP parameter delta vs Candidate G: +{param_count - g_param_count:,} "
+            f"({param_count / max(1, g_param_count):.3f}x total)",
+            flush=True,
+        )
     status_fn = getattr(unwrap_model(model), "hybrid_gdn_status", None)
     if callable(status_fn):
         print(f"Hybrid GDN status: {status_fn()}", flush=True)
@@ -377,6 +392,11 @@ def train(args: argparse.Namespace) -> None:
                 loops = metrics.get("avg_loops_per_token")
                 loop_value = metric_to_float(loops)
                 loop_text = f", loops/token={loop_value:.2f}" if loop_value is not None else ""
+                mtp_metrics = {
+                    key: metric_to_float(value)
+                    for key, value in metrics.items()
+                    if key.startswith("mtp_") and key.endswith("_loss")
+                }
                 train_record = {
                     "model_type": config.model_type,
                     "step": step,
@@ -390,10 +410,27 @@ def train(args: argparse.Namespace) -> None:
                     "avg_loops_per_token": loop_value,
                     "lr": current_lr,
                 }
+                train_record.update({key: value for key, value in mtp_metrics.items() if value is not None})
                 train_history.append(train_record)
+                mtp_text = ""
+                if mtp_metrics:
+                    primary = mtp_metrics.get("mtp_primary_loss")
+                    total = mtp_metrics.get("mtp_total_loss")
+                    aux_parts = [
+                        f"k{key.removeprefix('mtp_offset_').removesuffix('_loss')}={value:.4f}"
+                        for key, value in sorted(mtp_metrics.items())
+                        if key.startswith("mtp_offset_") and key != "mtp_offset_1_loss" and value is not None
+                    ]
+                    mtp_text = (
+                        f", primary={primary:.4f}, total={total:.4f}"
+                        if primary is not None and total is not None
+                        else ""
+                    )
+                    if aux_parts:
+                        mtp_text += ", aux[" + ", ".join(aux_parts) + "]"
                 print(
                     f"step={step} epoch={epoch + 1}/{planned_epochs} "
-                    f"loss={loss_value:.4f} lr={current_lr:.2e} tokens/sec={tokens_per_second:.1f}{loop_text}",
+                    f"loss={loss_value:.4f}{mtp_text} lr={current_lr:.2e} tokens/sec={tokens_per_second:.1f}{loop_text}",
                     flush=True,
                 )
 
@@ -410,7 +447,9 @@ def train(args: argparse.Namespace) -> None:
                     "field_metrics": val_metrics,
                 }
                 val_history.append(val_record)
-                print(f"validation step={step} val_loss={val_loss:.4f}", flush=True)
+                val_total = val_metrics.get("mtp_total_loss")
+                val_total_text = f" total_loss={val_total:.4f}" if val_total is not None else ""
+                print(f"validation step={step} val_loss={val_loss:.4f}{val_total_text}", flush=True)
                 if val_loss < best_val:
                     best_val = val_loss
                     ckpt_path = checkpoint_dir / f"{model_dir_name}-best.pt"
@@ -477,7 +516,9 @@ def train(args: argparse.Namespace) -> None:
                     "field_metrics": val_metrics,
                 }
             )
-            print(f"end epoch={epoch + 1} val_loss={val_loss:.4f}", flush=True)
+            val_total = val_metrics.get("mtp_total_loss")
+            val_total_text = f" total_loss={val_total:.4f}" if val_total is not None else ""
+            print(f"end epoch={epoch + 1} val_loss={val_loss:.4f}{val_total_text}", flush=True)
             if val_loss < best_val:
                 best_val = val_loss
                 ckpt_path = checkpoint_dir / f"{model_dir_name}-best.pt"
@@ -625,7 +666,7 @@ def upload_artifacts(args: argparse.Namespace, ckpt_path: Path, metrics_dir: Pat
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--model_type", choices=["A", "B", "C", "D", "E", "F", "G", "H"], default="D")
+    parser.add_argument("--model_type", choices=["A", "B", "C", "D", "E", "F", "G", "G_MTP", "H"], default="D")
     parser.add_argument("--data_dir", required=True, type=Path)
     parser.add_argument("--epochs", type=int, default=DEFAULT_TRAIN_EPOCHS)
     parser.add_argument("--include_long_motifs", action="store_true")
@@ -660,6 +701,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--hf_repo_id", default=None)
     parser.add_argument("--hf_token", default=os.environ.get("HF_TOKEN"))
     parser.add_argument("--hf_private", action="store_true")
+    parser.add_argument("--mtp_horizon", type=int, default=4)
+    parser.add_argument("--mtp_aux_weight", type=float, default=0.3)
     return parser.parse_args()
 
 

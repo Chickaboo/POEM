@@ -53,3 +53,12 @@ def test_hrm_variant_adds_recurrence_without_sharing_non_hrm_class() -> None:
     assert dense.__class__.__name__ == "PoemDenseRoPETransformer"
     assert hrm.__class__.__name__ == "PoemHRMDenseRoPE"
     assert count_parameters(hrm) > 0
+
+
+def test_new_dense_variants_generate_short_sequences() -> None:
+    for model_type in ("G", "G_MTP", "H"):
+        model = build_model(config_for_model_type(model_type, smoke_test=True))
+        events = model.generate(max_len=4, temperature=1.0)
+
+        assert 1 <= len(events) <= 4
+        assert all(len(event) == 5 for event in events)
