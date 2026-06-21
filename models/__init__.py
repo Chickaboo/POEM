@@ -9,6 +9,8 @@ from models.config import (
     PoemBackboneD,
     PoemBackboneE,
     PoemBackboneF,
+    PoemBackboneG,
+    PoemBackboneH,
 )
 
 __all__ = [
@@ -19,5 +21,7 @@ __all__ = [
     "PoemBackboneD",
     "PoemBackboneE",
     "PoemBackboneF",
+    "PoemBackboneG",
+    "PoemBackboneH",
     "build_model",
 ]

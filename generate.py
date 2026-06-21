@@ -21,6 +21,17 @@ def main() -> None:
     parser.add_argument("--temperature", type=float, default=1.0)
     parser.add_argument("--tempo", type=float, default=120.0)
     parser.add_argument("--device", default="auto")
+    parser.add_argument(
+        "--require_flash_gdn",
+        action="store_true",
+        help="For Candidate F checkpoints trained with FLA, fail early if FLA is unavailable.",
+    )
+    parser.add_argument(
+        "--fla_mode",
+        choices=["checkpoint", "chunk", "fused_recurrent"],
+        default="checkpoint",
+        help="Override Candidate F's FLA runtime mode for generation.",
+    )
     args = parser.parse_args()
 
     if args.device == "auto":
@@ -29,8 +40,27 @@ def main() -> None:
         device = torch.device(args.device)
     checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
     config = config_from_dict(checkpoint["config"])
+    if args.require_flash_gdn and hasattr(config, "require_flash_gdn"):
+        config.require_flash_gdn = True
+        config.use_flash_gdn = True
+    if args.fla_mode != "checkpoint" and hasattr(config, "hybrid_fla_mode"):
+        config.hybrid_fla_mode = args.fla_mode
     model = build_model(config)
-    model.load_state_dict(checkpoint["model_state"])
+    status_fn = getattr(model, "hybrid_gdn_status", None)
+    if callable(status_fn):
+        print(f"Hybrid GDN status: {status_fn()}", flush=True)
+    try:
+        model.load_state_dict(checkpoint["model_state"])
+    except RuntimeError as exc:
+        if str(config.model_type).upper() == "F":
+            raise RuntimeError(
+                "Could not load Candidate F checkpoint into the current runtime. "
+                "If this checkpoint was trained with flash-linear-attention, local "
+                "generation also needs a compatible FLA install and should be run with "
+                "`--require_flash_gdn`. The sequential fallback is useful for smoke tests, "
+                "but it is not weight-compatible with FLA-trained checkpoints."
+            ) from exc
+        raise
     model.to(device)
     model.eval()
     args.output_dir.mkdir(parents=True, exist_ok=True)

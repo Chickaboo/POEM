@@ -33,6 +33,10 @@ class POEMConfig:
     require_flash_gdn: bool = False
     hybrid_use_short_conv: bool = False
     hybrid_fla_mode: str = "chunk"
+    hrm_h_cycles: int = 2
+    hrm_l_cycles: int = 3
+    hrm_bp_steps: int = 5
+    hrm_half_layers: bool = True
 
     @property
     def ffn_hidden_dim(self) -> int:
@@ -113,6 +117,32 @@ class PoemBackboneF(POEMConfig):
     use_absolute_pos: bool = False
 
 
+@dataclass
+class PoemBackboneG(POEMConfig):
+    model_type: str = "G"
+    d_model: int = 384
+    n_heads: int = 6
+    n_layers: int = 8
+    ffn_multiplier: float = 8.0 / 3.0
+    use_rope: bool = True
+    use_absolute_pos: bool = False
+
+
+@dataclass
+class PoemBackboneH(POEMConfig):
+    model_type: str = "H"
+    d_model: int = 384
+    n_heads: int = 6
+    n_layers: int = 8
+    ffn_multiplier: float = 8.0 / 3.0
+    hrm_h_cycles: int = 2
+    hrm_l_cycles: int = 3
+    hrm_bp_steps: int = 5
+    hrm_half_layers: bool = True
+    use_rope: bool = True
+    use_absolute_pos: bool = False
+
+
 def config_for_model_type(model_type: str, smoke_test: bool = False) -> POEMConfig:
     normalized = model_type.upper()
     config_cls = {
@@ -122,9 +152,11 @@ def config_for_model_type(model_type: str, smoke_test: bool = False) -> POEMConf
         "D": PoemBackboneD,
         "E": PoemBackboneE,
         "F": PoemBackboneF,
+        "G": PoemBackboneG,
+        "H": PoemBackboneH,
     }.get(normalized)
     if config_cls is None:
-        raise ValueError(f"Unknown model_type {model_type!r}; expected A, B, C, D, E, or F")
+        raise ValueError(f"Unknown model_type {model_type!r}; expected A, B, C, D, E, F, G, or H")
     config = config_cls()
     if smoke_test:
         config.d_model = 64
@@ -135,6 +167,13 @@ def config_for_model_type(model_type: str, smoke_test: bool = False) -> POEMConf
         config.max_seq_len = 160
         config.max_loops = 2
         config.halt_threshold = 0.5
+        if normalized == "G":
+            config.n_layers = 2
+        if normalized == "H":
+            config.n_layers = 2
+            config.hrm_h_cycles = 1
+            config.hrm_l_cycles = 2
+            config.hrm_bp_steps = 2
         if normalized == "F":
             config.hybrid_gdn_dim = 48
             config.hybrid_attn_dim = 16

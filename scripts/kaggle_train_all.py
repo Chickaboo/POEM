@@ -5,7 +5,8 @@ This script is meant for a Kaggle notebook with two attached datasets:
 - the POEM-BASE code repository mirror
 - the Beautiful-Motifs MIDI dataset
 
-It trains F, B, and A by default because D, C, and E have already been run. It writes
+It trains H and G by default: the HRM dense RoPE candidate plus its matched
+non-HRM dense RoPE control. It writes
 checkpoint/metric artifacts locally, generates five MIDI samples per completed
 candidate, and uploads each completed candidate folder to Hugging Face in a
 single commit to avoid Hub commit rate limits.
@@ -22,7 +23,7 @@ import time
 from pathlib import Path
 
 
-MODEL_ORDER = ["F", "B", "A"]
+MODEL_ORDER = ["H", "G"]
 DEFAULT_BATCH_BY_MODEL = {
     "A": 32,
     "B": 64,
@@ -30,6 +31,8 @@ DEFAULT_BATCH_BY_MODEL = {
     "D": 256,
     "E": 256,
     "F": 128,
+    "G": 64,
+    "H": 64,
 }
 
 
@@ -50,6 +53,8 @@ def batch_size_for_model(args: argparse.Namespace, model_type: str) -> int:
         "D": args.batch_size_d,
         "E": args.batch_size_e,
         "F": args.batch_size_f,
+        "G": args.batch_size_g,
+        "H": args.batch_size_h,
     }
     override = overrides.get(model_type)
     if override is not None:
@@ -150,7 +155,7 @@ def main() -> None:
     parser.add_argument("--data_dir", required=True, type=Path)
     parser.add_argument("--hf_repo_id", required=True)
     parser.add_argument("--hf_token", default=os.environ.get("HF_TOKEN"))
-    parser.add_argument("--epochs", type=int, default=40)
+    parser.add_argument("--epochs", type=int, default=15)
     parser.add_argument("--batch_size", type=int, default=None)
     parser.add_argument("--batch_size_a", type=int, default=32)
     parser.add_argument("--batch_size_b", type=int, default=64)
@@ -158,6 +163,8 @@ def main() -> None:
     parser.add_argument("--batch_size_d", type=int, default=256)
     parser.add_argument("--batch_size_e", type=int, default=256)
     parser.add_argument("--batch_size_f", type=int, default=128)
+    parser.add_argument("--batch_size_g", type=int, default=64)
+    parser.add_argument("--batch_size_h", type=int, default=64)
     parser.add_argument("--batch_size_f_single_gpu", type=int, default=64)
     parser.add_argument("--variants", nargs="+", default=MODEL_ORDER)
     parser.add_argument("--cache_path", type=Path, default=Path("/kaggle/working/cache/poem-short-token-cache.pt"))

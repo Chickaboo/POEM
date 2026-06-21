@@ -44,6 +44,8 @@ python train.py --model_type B --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_t
 python train.py --model_type E --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_test --max_steps 60
 python train.py --model_type A --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_test --max_steps 40
 python train.py --model_type F --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_test --max_steps 40
+python train.py --model_type G --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_test --max_steps 40
+python train.py --model_type H --data_dir Beautiful-Motifs-CC-BY-NC-SA --smoke_test --max_steps 40
 ```
 
 Candidate A logs `loops/token`. Full runs use an ACT threshold of 0.99 and a hard `max_loops=6`; smoke mode lowers the threshold to verify early-stop plumbing with only two loops.
@@ -57,6 +59,16 @@ convolution by default on Kaggle because the core GDN path is the important
 speedup and the short-conv Triton autotuner has been brittle on dual T4 sessions.
 FLA requires `chunk` mode for training, so POEM applies a narrow Triton
 autotuner compatibility patch in `train.py` for Kaggle's CUDA/Triton stack.
+
+Candidates G and H are quality-first dense RoPE attention variants for the
+10-second motif setting. G is the non-HRM control: an 8-layer full quadratic
+RoPE Transformer with no recurrent shortcut or linear-attention branch. H adapts
+the HRM-Text pattern from `sapientinc/HRM-Text`: separate high-level and
+low-level dense RoPE modules, default `H_cycles=2`, `L_cycles=3`, half-layer
+splitting between the levels, additive input injection, and a truncated
+backpropagation window over the deepest recurrent steps. H keeps full quadratic
+attention in both recurrent levels; recurrence adds hierarchy rather than
+replacing attention quality.
 
 ## Full Training
 
@@ -103,6 +115,14 @@ This reuses `training/compute_budget.py`, which reports tokens per parameter per
 python generate.py --checkpoint checkpoints/poem-a-best.pt --num_samples 8 --output_dir samples
 ```
 
+Candidate F checkpoints trained with real `flash-linear-attention` GDN need a
+compatible local FLA runtime for generation too; POEM's sequential fallback is
+not weight-compatible with FLA-trained checkpoints. Use:
+
+```bash
+python generate.py --checkpoint checkpoints/poem-f-best.pt --num_samples 8 --output_dir samples --device cuda --require_flash_gdn --fla_mode fused_recurrent
+```
+
 ## Kaggle Dual-T4 Workflow
 
 Use [kaggle_poem_dual_t4.ipynb](kaggle_poem_dual_t4.ipynb) with two Kaggle datasets attached:
@@ -110,6 +130,6 @@ Use [kaggle_poem_dual_t4.ipynb](kaggle_poem_dual_t4.ipynb) with two Kaggle datas
 - `POEM-BASE`: a mirror of this repository
 - `Beautiful-Motifs-CC-BY-NC-SA`: the MIDI dataset
 
-The notebook asks for a Hugging Face write token, creates/updates a private model repository such as `your-name/POEM-BASE`, pretokenizes the short motifs, skips already-finished D/C/E by default, trains candidates in order `F B A`, writes checkpoint-level JSON metrics plus summary JSON files, generates five MIDI samples per completed candidate, and uploads each completed model folder in a single Hugging Face commit.
+The notebook asks for a Hugging Face write token, creates/updates a private model repository such as `your-name/POEM-BASE`, pretokenizes the short motifs, trains candidates in order `H G`, writes checkpoint-level JSON metrics plus summary JSON files, generates five MIDI samples per completed candidate, and uploads each completed model folder in a single Hugging Face commit.
 
-Default Kaggle batch sizes are per-architecture: C/E use 256, F uses 64, B uses 64, and A uses 32. F installs `flash-linear-attention[cuda]` in the notebook so its GDN branch can use chunked GPU kernels instead of the slow sequential reference path. F runs in single-GPU mode because FLA/Triton kernels have been unstable under `torch.nn.DataParallel`.
+Default Kaggle batch sizes for the new comparison are matched: H uses 64 and G uses 64. Matching the batch size keeps the HRM and non-HRM dense RoPE runs easier to compare while leaving more T4 VRAM headroom than 128. The notebook no longer installs `flash-linear-attention[cuda]` by default because the H/G dense RoPE run does not need it. If you add F back to `VARIANTS`, install FLA first so its GDN branch can use chunked GPU kernels instead of the slow sequential reference path; F still runs in single-GPU mode because FLA/Triton kernels have been unstable under `torch.nn.DataParallel`.
