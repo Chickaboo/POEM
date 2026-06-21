@@ -83,6 +83,7 @@ def patch_triton_autotune_for_kaggle() -> None:
         return
 
     def skip_disk_cache(self, key, pruned_configs, benchmark):
+        benchmark()
         return False
 
     Autotuner.check_disk_cache = skip_disk_cache
