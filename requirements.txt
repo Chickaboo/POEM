@@ -3,3 +3,4 @@ pretty_midi
 mido
 pytest
 huggingface_hub
+prompt_toolkit

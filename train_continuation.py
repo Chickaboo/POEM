@@ -166,6 +166,25 @@ def maybe_upload_folder(folder: Path, repo_id: str | None, token: str | None, pa
     )
 
 
+def maybe_upload_checkpoint_file(path: Path, repo_id: str | None, token: str | None, path_in_repo: str) -> None:
+    if not repo_id or not token or not path.exists():
+        return
+    try:
+        from huggingface_hub import HfApi
+    except Exception as exc:
+        print(f"Hugging Face checkpoint upload skipped; huggingface_hub unavailable: {exc}", flush=True)
+        return
+    api = HfApi(token=token)
+    api.create_repo(repo_id=repo_id, repo_type="model", private=True, exist_ok=True)
+    api.upload_file(
+        path_or_fileobj=str(path),
+        repo_id=repo_id,
+        repo_type="model",
+        path_in_repo=path_in_repo.strip("/"),
+        commit_message=f"Upload {path_in_repo.strip('/')}",
+    )
+
+
 def train(args: argparse.Namespace) -> None:
     torch.set_num_threads(max(1, min(int(args.threads), torch.get_num_threads())))
     if args.device == "auto":
@@ -339,8 +358,9 @@ def train(args: argparse.Namespace) -> None:
                     )
                     if val_metrics["loss"] < best_val:
                         best_val = float(val_metrics["loss"])
+                        best_path = checkpoint_dir / f"{model_name}-best.pt"
                         save_checkpoint(
-                            checkpoint_dir / f"{model_name}-best.pt",
+                            best_path,
                             model=model,
                             optimizer=optimizer,
                             scheduler=scheduler,
@@ -351,10 +371,12 @@ def train(args: argparse.Namespace) -> None:
                             best_val_loss=best_val,
                             args=args,
                         )
+                        write_json(metrics_dir / "val_history.json", {"records": val_history})
 
-                if step % int(args.checkpoint_interval) == 0:
+                if int(args.checkpoint_interval) > 0 and step % int(args.checkpoint_interval) == 0:
+                    ckpt_path = checkpoint_dir / f"{model_name}-{step}.pt"
                     save_checkpoint(
-                        checkpoint_dir / f"{model_name}-{step}.pt",
+                        ckpt_path,
                         model=model,
                         optimizer=optimizer,
                         scheduler=scheduler,
@@ -365,8 +387,51 @@ def train(args: argparse.Namespace) -> None:
                         best_val_loss=best_val if best_val < float("inf") else None,
                         args=args,
                     )
+                    write_json(metrics_dir / "train_history.json", {"records": history})
+                    write_json(metrics_dir / "val_history.json", {"records": val_history})
                 if int(args.max_steps) > 0 and step >= int(args.max_steps):
                     break
+        if step > 0:
+            epoch_path = checkpoint_dir / f"{model_name}-epoch-{epoch + 1}.pt"
+            save_checkpoint(
+                epoch_path,
+                model=model,
+                optimizer=optimizer,
+                scheduler=scheduler,
+                scaler=scaler,
+                config=config,
+                step=step,
+                epoch=epoch + 1,
+                best_val_loss=best_val if best_val < float("inf") else None,
+                args=args,
+            )
+            write_json(metrics_dir / "train_history.json", {"records": history})
+            write_json(metrics_dir / "val_history.json", {"records": val_history})
+            maybe_upload_checkpoint_file(
+                epoch_path,
+                args.hf_repo_id,
+                args.hf_token,
+                f"continuation/{model_name}/checkpoints/{epoch_path.name}",
+            )
+            maybe_upload_checkpoint_file(
+                epoch_path,
+                args.hf_repo_id,
+                args.hf_token,
+                f"continuation/{model_name}/checkpoints/{model_name}-latest.pt",
+            )
+            best_path = checkpoint_dir / f"{model_name}-best.pt"
+            maybe_upload_checkpoint_file(
+                best_path,
+                args.hf_repo_id,
+                args.hf_token,
+                f"continuation/{model_name}/checkpoints/{best_path.name}",
+            )
+            maybe_upload_folder(
+                metrics_dir,
+                args.hf_repo_id,
+                args.hf_token,
+                f"continuation/{model_name}/metrics",
+            )
         if int(args.max_steps) > 0 and step >= int(args.max_steps):
             break
 
