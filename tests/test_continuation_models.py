@@ -9,6 +9,7 @@ from models.continuation import (
     continuation_targets,
     count_parameters,
 )
+from train_continuation import scalar_loss
 
 
 def test_continuation_targets_mask_seed_context() -> None:
@@ -16,6 +17,14 @@ def test_continuation_targets_mask_seed_context() -> None:
     targets = continuation_targets(token_ids, seed_length=4)
 
     assert targets.tolist() == [[-100, -100, -100, 1, 129, 217, 345, -100]]
+
+
+def test_scalar_loss_reduces_dataparallel_vector_loss() -> None:
+    loss = torch.tensor([2.0, 4.0], requires_grad=True)
+    reduced = scalar_loss(loss)
+
+    assert reduced.shape == torch.Size([])
+    assert torch.isclose(reduced, torch.tensor(3.0))
 
 
 def test_slot_mask_allows_expected_quad_classes() -> None:

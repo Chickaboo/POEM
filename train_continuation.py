@@ -73,6 +73,10 @@ def build_scheduler(
     return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
 
 
+def scalar_loss(loss: torch.Tensor) -> torch.Tensor:
+    return loss.mean() if loss.ndim > 0 else loss
+
+
 @torch.no_grad()
 def evaluate(
     model: torch.nn.Module,
@@ -95,8 +99,9 @@ def evaluate(
         with torch.autocast(device_type=device.type, dtype=amp_dtype, enabled=use_amp):
             output = model(token_ids, targets)
         if output.loss is not None:
+            loss_tensor = scalar_loss(output.loss)
             valid = int((targets != -100).sum().item())
-            loss_total += float(output.loss.detach()) * float(valid)
+            loss_total += float(loss_tensor.detach()) * float(valid)
             token_total += valid
             acc_total += continuation_accuracy(output.logits, targets)
             acc_batches += 1
@@ -268,6 +273,7 @@ def train(args: argparse.Namespace) -> None:
                 loss = output.loss
             if loss is None:
                 raise RuntimeError("Model did not return a loss")
+            loss = scalar_loss(loss)
             scaled_loss = loss / max(1, int(args.grad_accumulation_steps))
             if scaler.is_enabled():
                 scaler.scale(scaled_loss).backward()
